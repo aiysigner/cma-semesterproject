@@ -1,27 +1,42 @@
 ---
-title: "project"
+title: The title of your Semesterproject
+subtitle: A subtle subtitle
+author: Aiyana Signer & Diego Gomes
 format: html
 editor: visual
 jupyter: python3
 ---
 
-## Quarto
+## Abstract
 
-Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+<!-- the following is just a placeholder text, remove it!-->
 
-## Running Code
+Society philosophy merciful selfish sexuality depths overcome madness. Morality free faithful merciful ubermensch good oneself convictions intentions eternal-return. Spirit against christianity right selfish evil ultimate pious hatred ocean dead insofar noble. Madness pious madness christianity prejudice horror grandeur god strong. Ideal will philosophy reason pious society burying ascetic right society philosophy. Society will evil intentions against philosophy against holiest victorious.
 
-When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+## Introduction
 
-```{python}
-1 + 1
-```
+<!-- the following is just a placeholder text, remove it!-->
 
-You can add options to executable code like this
+Against holiest pinnacle mountains merciful ideal society play disgust will ubermensch ultimate pinnacle victorious. Snare value law gains battle pious intentions revaluation strong. Insofar snare faith ideal oneself.
 
-```{python}
-#| echo: false
-2 * 2
-```
+<!-- the following is just a placeholder text, remove it!-->
 
-The `echo: false` option disables the printing of code (only output is displayed).
+Revaluation evil aversion ultimate decrepit disgust decrepit eternal-return noble faithful pinnacle. Truth ascetic inexpedient decrepit free. Ubermensch free merciful mountains endless fearful decieve reason mountains will decrepit strong selfish depths. Overcome faith snare gains oneself transvaluation.
+
+## Material and Methods
+
+<!-- the following is just a placeholder text, remove it!-->
+
+Christianity revaluation value battle faithful marvelous society derive free truth. Right battle mountains superiority grandeur ascetic grandeur merciful. Derive against intentions burying salvation ocean. Right intentions dead victorious ideal spirit evil ultimate joy. Holiest spirit value oneself contradict aversion christianity ultimate convictions war christian.
+
+## Results
+
+<!-- the following is just a placeholder text, remove it!-->
+
+Philosophy oneself passion play fearful self noble zarathustra deceptions sexuality. Endless ocean of oneself dead ocean. Selfish decrepit.
+
+## Discussion
+
+<!-- the following is just a placeholder text, remove it!-->
+
+Justice convictions spirit sexuality insofar free marvelous joy. Revaluation virtues mountains spirit fearful sexuality love endless. Society intentions will noble burying aversion moral. Insofar passion ultimate mountains of play gains depths joy christian reason christianity mountains dead. Mountains christianity play war holiest ascetic passion oneself derive grandeur. Against pinnacle hope joy burying ocean of horror disgust victorious faithful justice suicide.
