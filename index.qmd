@@ -1,6 +1,6 @@
 ---
-title: The title of your Semesterproject
-subtitle: A subtle subtitle
+title: Social Hotspot Analysis and Visualization
+subtitle: CMA Semesterproject FS23
 author: Aiyana Signer & Diego Gomes
 format: html
 editor: visual
@@ -13,7 +13,7 @@ jupyter: python3
 import pandas as pd
 import matplotlib.pyplot as plt
 
-df = pd.read_csv('data/posmo.csv')
+df = pd.read_csv('data/posmo0.csv')
 
 # df.plot(x='lon_x', y='lat_y')
 # plt.show()
@@ -25,8 +25,8 @@ import geopandas as gpd
 gdf = gpd.GeoDataFrame(
   df, geometry = gpd.points_from_xy(df.lon_x, df.lat_y)
 )
-# gdf.plot(cmap='hot')
-# plt.show()
+gdf.plot(cmap='hot')
+plt.show()
 ```
 
 ```{python}
