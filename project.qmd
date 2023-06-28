@@ -7,6 +7,32 @@ editor: visual
 jupyter: python3
 ---
 
+## Trying Stuff Out
+
+```{python}
+import pandas as pd
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('data/posmo.csv')
+
+# df.plot(x='lon_x', y='lat_y')
+# plt.show()
+```
+
+```{python}
+import geopandas as gpd
+
+gdf = gpd.GeoDataFrame(
+  df, geometry = gpd.points_from_xy(df.lon_x, df.lat_y)
+)
+# gdf.plot(cmap='hot')
+# plt.show()
+```
+
+```{python}
+print()
+```
+
 ## Abstract
 
 <!-- the following is just a placeholder text, remove it!-->
