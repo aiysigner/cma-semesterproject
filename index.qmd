@@ -1,7 +1,15 @@
 ---
 title: Social Hotspot Analysis and Visualization
-subtitle: CMA Semesterproject FS23
-author: Aiyana Signer & Diego Gomes
+subtitle: Patterns & Trends in Environmental Data / Computational Movement Analysis Geo 880 --- Semesterproject FS23
+author: 
+  - name: Aiyana Signer 
+    affiliation:
+      - name: University of Zurich
+  - name: Diego Gomes
+    affiliation:
+      - name: University of Zurich
+date: 07.02.2023
+date-format: long
 format: html
 editor: visual
 jupyter: python3
@@ -25,8 +33,8 @@ import geopandas as gpd
 gdf = gpd.GeoDataFrame(
   df, geometry = gpd.points_from_xy(df.lon_x, df.lat_y)
 )
-gdf.plot(cmap='hot')
-plt.show()
+#gdf.plot(cmap='hot')
+#plt.show()
 ```
 
 ```{python}
@@ -35,34 +43,50 @@ print()
 
 ## Abstract
 
+The aim of this project is to identify and characterize social hotspots, locations where people spend time in close proximity at the same time. As such, we investigate and operationalise the spatio-temporal clustering of individuals to uncover patterns of social interaction. A raster-based approach using a hexagonal grid and a point-based approach using a kernel density estimation (KDE) are compared. For the analysis, we use tracking data gathered with the posmo app from a group of students in the Computational Movement Analysis class.
+
+## Introduction and Research Questions
+
+In regards to terminology, a visit refers to a location where an individual spends a certain amount of time. A hotspot is a place with numerous visits, while a social hotspot also takes into account that the visits occur in the same time period.
+
+Analysing social hotspots can provide valuable insights into how people gather, socialize, and engage with their surroundings. Attributes such as average duration, total time spent and the number of visits can be used to measure how popular a gathering spot is. In urban planning, this can be used to help set priorities for public investments in infrastructure (e.g., Kucukpehlivan et al., 2023). In the field of health sciences, hotspot analysis can be used to identify first outbreaks of diseases (Jones et al., 2008) to be used in emergency response planning.
+
+In this project, we compare two different methods to identify hotspots, a raster-based and a point-based approach. Both methods implement an approach to first compute the visits and locations for an individual. This is then further generalized to compute the union and intersection of visits. As such, we try to answer the following research questions:
+
+1.  How can individual hotspot detection from Posmo Tracking data be operationalized and applied to multiple individuals?
+
+2.  How does a cell-based vs. point-based method impact the semantics and certainty of our analysis?
+
+## Methods
+
+<!-- Maybe we can also remove this, since it is partly already described in the introduction!-->
+
+For both the raster-based and the point-based method, we first compute visits of an individual, i.e. locations that a person has spent a certain amount of time. Depending on the modeled environment, location is defined differently. For the raster-based approach, the environment is divided into individual cells, and a a visit is modeled as an individual spending a certain amount of time within a cell. On the other hand, the point-based approach uses a moving centroid to check whether a point is close enough to still be a part of that visit. In both cases, visits that fall below a given threshold time will be considered as a person being in transit, and hence not interpreted as a visit at that location.
+
+The next step is to compute meeting points of multiple individuals, which we operationalised as the union or intersection of visits. For the cell-based approach, near each other means being in the same raster cell. For the point-based approach, a buffer with a certain distance threshold is created around each visit creating a polygon for each visit. The intersection then computes any intersection of the polygons.
+
+### Raster-based
+
 <!-- the following is just a placeholder text, remove it!-->
 
-Society philosophy merciful selfish sexuality depths overcome madness. Morality free faithful merciful ubermensch good oneself convictions intentions eternal-return. Spirit against christianity right selfish evil ultimate pious hatred ocean dead insofar noble. Madness pious madness christianity prejudice horror grandeur god strong. Ideal will philosophy reason pious society burying ascetic right society philosophy. Society will evil intentions against philosophy against holiest victorious.
-
-## Introduction
+### Point-based
 
 <!-- the following is just a placeholder text, remove it!-->
-
-Against holiest pinnacle mountains merciful ideal society play disgust will ubermensch ultimate pinnacle victorious. Snare value law gains battle pious intentions revaluation strong. Insofar snare faith ideal oneself.
-
-<!-- the following is just a placeholder text, remove it!-->
-
-Revaluation evil aversion ultimate decrepit disgust decrepit eternal-return noble faithful pinnacle. Truth ascetic inexpedient decrepit free. Ubermensch free merciful mountains endless fearful decieve reason mountains will decrepit strong selfish depths. Overcome faith snare gains oneself transvaluation.
-
-## Material and Methods
-
-<!-- the following is just a placeholder text, remove it!-->
-
-Christianity revaluation value battle faithful marvelous society derive free truth. Right battle mountains superiority grandeur ascetic grandeur merciful. Derive against intentions burying salvation ocean. Right intentions dead victorious ideal spirit evil ultimate joy. Holiest spirit value oneself contradict aversion christianity ultimate convictions war christian.
 
 ## Results
 
 <!-- the following is just a placeholder text, remove it!-->
 
-Philosophy oneself passion play fearful self noble zarathustra deceptions sexuality. Endless ocean of oneself dead ocean. Selfish decrepit.
-
 ## Discussion
 
 <!-- the following is just a placeholder text, remove it!-->
 
-Justice convictions spirit sexuality insofar free marvelous joy. Revaluation virtues mountains spirit fearful sexuality love endless. Society intentions will noble burying aversion moral. Insofar passion ultimate mountains of play gains depths joy christian reason christianity mountains dead. Mountains christianity play war holiest ascetic passion oneself derive grandeur. Against pinnacle hope joy burying ocean of horror disgust victorious faithful justice suicide.
+## Literature
+
+Jones, K., Patel, N., Levy, M. et al. (2008). Global trends in emerging infectious diseases. Nature 451, 990--993.
+
+Kucukpehlivan, T., Cetin, M., Aksoy, T., Senyel Kurkcuoglu, M. A., Cabuk, S. N., Isik Pekkan, O., Dabanli, A., & Cabuk, A. (2023). Determination of the impacts of urban-planning of the urban land area using GIS hotspot analysis. Computers and Electronics in Agriculture, 210, 107935.
+
+```{R}
+wordcountaddin:::text_stats()
+```
