@@ -34,7 +34,7 @@ class RasterBasedEntity:
 
     def map_locations(self, column='num_visits'):
         # Initialize the map at the center of all locations
-        map_center = [47.3666, 8.6795] #[self.locations.geometry.centroid.y.mean(), self.locations.geometry.centroid.x.mean()]
+        map_center = [47.356, 8.673] # Greifensee
         
         # Create a folium Map
         m = folium.Map(location=map_center, zoom_start=11, tiles='cartodbpositron')
@@ -66,7 +66,7 @@ class RasterBasedPerson(RasterBasedEntity):
         self.visits = pd.DataFrame(columns=['start_time', 'end_time', 'location', 'duration'])
 
     @classmethod
-    def from_csv(cls, filename, hex_resolution, visit_threshold=pd.Timedelta('5 minute')):
+    def from_csv(cls, filename, hex_resolution, visit_threshold=pd.Timedelta('10 minute')):
         data = pd.read_csv(filename)
 
         # Convert the datetime to a pandas datetime object

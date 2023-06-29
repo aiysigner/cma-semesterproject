@@ -13,7 +13,7 @@ class PointBasedEntity:
         self.visits = pd.DataFrame()
         self.locations = gpd.GeoDataFrame()
 
-    def create_locations(self, cluster_radius=0.0025):        
+    def create_locations(self, cluster_radius=0.007):        
         # Convert locations to 2D numpy array
         points = np.array(self.visits['location'].tolist())
         
@@ -47,6 +47,25 @@ class PointBasedEntity:
         self.locations = gpd.GeoDataFrame(self.locations, geometry=self.locations['location'].apply(lambda x: Point(x[0], x[1])))
 
     def map_locations(self, column='num_visits'):
+        # Initialize the map at the center of all locations
+        map_center = [47.3666, 8.6795]  # [self.locations.geometry.centroid.y.mean(), self.locations.geometry.centroid.x.mean()]
+
+        # Create a folium Map
+        m = folium.Map(location=map_center, zoom_start=11, tiles='cartodbpositron')
+
+        # If column is avg_time or total_time, convert it to seconds for normalization
+        if column == 'avg_time' or column == 'total_time':
+            column_values = self.locations[column].dt.total_seconds()
+        else:
+            column_values = self.locations[column]
+
+        # Normalize the chosen column for gradient
+        norm = plt.Normalize(column_values.min(), column_values.max())
+
+        # Calculate normalized values for each location
+        normalized_values = [norm(value) for value in column_values]
+
+        # Define the gradient
         gradient = {
             0.0: '#ffffcc',
             0.1: '#fff1a9',
@@ -60,15 +79,9 @@ class PointBasedEntity:
             0.9: '#b00026',
             1.0: '#800026'
         }
-        
-        # Initialize the map at the center of all locations
-        map_center = [47.3666, 8.6795] #[self.locations.geometry.centroid.y.mean(), self.locations.geometry.centroid.x.mean()]
-        
-        # Create a folium Map
-        m = folium.Map(location=map_center, zoom_start=11, tiles='cartodbpositron')
 
         # Add HeatMap to the map
-        data = [[row['geometry'].x, row['geometry'].y, row[column]] for _, row in self.locations.iterrows()]
+        data = [[row['geometry'].x, row['geometry'].y, normalized_values[idx]] for idx, row in self.locations.iterrows()]
         folium.plugins.HeatMap(data, gradient=gradient).add_to(m)
 
         return m
@@ -82,7 +95,7 @@ class PointBasedPerson(PointBasedEntity):
         self.visits = pd.DataFrame(columns=['start_time', 'end_time', 'location', 'duration'])
 
     @classmethod
-    def from_csv(cls, filename, dist_threshold, visit_threshold=pd.Timedelta('5 minute')):
+    def from_csv(cls, filename, dist_threshold, visit_threshold=pd.Timedelta('10 minute')):
         data = pd.read_csv(filename)
         
         # Remove rows with missing coordinates
@@ -181,7 +194,7 @@ class PointBasedIntersectGroup(PointBasedEntity):
     def add_person(self, person):
         self.people.append(person)
 
-    def compute_visits(self, n_min=2, n=None, min_duration=pd.Timedelta('5 minutes'), cluster_radius=0.0025):
+    def compute_visits(self, n_min=2, n=None, min_duration=pd.Timedelta('5 minutes'), cluster_radius=0.007):
         # Concatenate all visits from all people
         all_visits = pd.concat([person.visits for person in self.people], ignore_index=True)
         
