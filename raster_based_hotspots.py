@@ -37,7 +37,7 @@ class RasterBasedEntity:
         map_center = [47.356, 8.673] # Greifensee
         
         # Create a folium Map
-        m = folium.Map(location=map_center, zoom_start=11, tiles='cartodbpositron')
+        m = folium.Map(location=map_center, zoom_start=11, max_zoom=13, tiles='cartodbpositron')
         
         # If column is avg_time, convert it to seconds for normalization
         if column == 'avg_time' or column == 'total_time':
