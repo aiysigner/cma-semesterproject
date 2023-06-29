@@ -1,6 +1,7 @@
 import pandas as pd
 import geopandas as gpd
 import numpy as np
+import matplotlib.pyplot as plt
 from scipy.spatial.distance import pdist, squareform
 from sklearn.cluster import DBSCAN
 from shapely.geometry import Point

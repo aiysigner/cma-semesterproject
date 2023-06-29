@@ -77,17 +77,16 @@ from point_based_hotspots import PointBasedPerson, PointBasedUnionGroup, PointBa
 ```
 
 ```{python}
-raster_based_person = RasterBasedPerson(f'data/posmo2.csv', 8)
+raster_based_person = RasterBasedPerson.from_csv(f'data/posmo2.csv', 8)
 point_based_person = PointBasedPerson.from_csv(f'data/posmo2.csv', 0.5314)
 ```
 
 ```{python}
 raster_based_person.map_locations(column='num_visits')
-point_based_person.map_locations(column='num_visits')
 ```
 
 ```{python}
-
+point_based_person.map_locations(column='num_visits')
 ```
 
 ```{python}
