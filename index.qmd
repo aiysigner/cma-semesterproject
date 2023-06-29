@@ -15,20 +15,6 @@ editor: visual
 jupyter: python3
 ---
 
-## Trying Stuff Out
-
-```{python}
-
-```
-
-```{python}
-
-```
-
-```{python}
-
-```
-
 ## Abstract
 
 The aim of this project is to identify and characterize social hotspots, locations where people spend time in close proximity at the same time. As such, we investigate and operationalise the spatio-temporal clustering of individuals to uncover patterns of social interaction. A raster-based approach using a hexagonal grid and a point-based approach using a kernel density estimation (KDE) are compared. For the analysis, we use tracking data gathered with the posmo app from a group of students in the Computational Movement Analysis class.
@@ -53,23 +39,7 @@ For both the raster-based and the point-based method, we first compute visits of
 
 The next step is to compute meeting points of multiple individuals, which we operationalised as the union or intersection of visits. For the cell-based approach, near each other means being in the same raster cell. For the point-based approach, a buffer with a certain distance threshold is created around each visit creating a polygon for each visit. The intersection then computes any intersection of the polygons.
 
-### Raster-based
-
-<!-- the following is just a placeholder text, remove it!-->
-
-### Point-based
-
-<!-- the following is just a placeholder text, remove it!-->
-
 ## Results
-
-### Raster-based
-
-<!-- the following is just a placeholder text, remove it!-->
-
-### Point-based
-
-<!-- Testing if rendering of code works-->
 
 ```{python}
 from raster_based_hotspots import RasterBasedPerson, RasterBasedUnionGroup, RasterBasedIntersectGroup
@@ -90,12 +60,51 @@ point_based_person.map_locations(column='num_visits')
 ```
 
 ```{python}
+raster_based_union_group = RasterBasedUnionGroup()
+point_based_union_group = PointBasedUnionGroup()
 
+raster_based_intersection_group = RasterBasedIntersectGroup()
+point_based_intersection_group = PointBasedIntersectGroup()
 ```
 
 ```{python}
-
+for i in range(9):
+    raster_based_person = RasterBasedPerson.from_csv(f'data/posmo{i}.csv', 8)
+    point_based_person = PointBasedPerson.from_csv(f'data/posmo{i}.csv', 0.5314)
+    
+    raster_based_union_group.add_person(raster_based_person)
+    point_based_union_group.add_person(point_based_person)
+    
+    raster_based_intersection_group.add_person(raster_based_person)
+    point_based_intersection_group.add_person(point_based_person)
+    
+    print(f'Finished loading Person {i}')
 ```
+
+```{python}
+raster_based_union_group.compute_visits()
+point_based_union_group.compute_visits()
+
+raster_based_intersection_group.compute_visits(n_min=2)
+point_based_intersection_group.compute_visits(n_min=2)
+```
+
+```{python}
+raster_based_union_group.map_locations(column='num_visits')
+```
+
+```{python}
+point_based_union_group.map_locations(column='num_visits')
+```
+
+```{python}
+raster_based_intersection_group.map_locations(column='num_visits')
+```
+
+```{python}
+point_based_intersection_group.map_locations(column='num_visits')
+```
+
 
 ## Discussion
 
