@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.335">
+<meta name="generator" content="quarto-1.2.475">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -160,27 +160,251 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <section id="trying-stuff-out" class="level2">
 <h2 class="anchored" data-anchor-id="trying-stuff-out">Trying Stuff Out</h2>
 <div class="cell" data-execution_count="1">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'data/posmo0.csv'</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="co"># df.plot(x='lon_x', y='lat_y')</span></span>
-<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.show()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> raster_based_hotspots <span class="im">import</span> RasterBasedPerson, RasterBasedUnionGroup, RasterBasedIntersectGroup</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="2">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>gdf <span class="op">=</span> gpd.GeoDataFrame(</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  df, geometry <span class="op">=</span> gpd.points_from_xy(df.lon_x, df.lat_y)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#gdf.plot(cmap='hot')</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#plt.show()</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>person <span class="op">=</span> RasterBasedPerson.from_csv(<span class="ss">f'data/posmo0.csv'</span>, <span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="3">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code></code></pre>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>person.map_locations()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -&gt; Trust Notebook</span><iframe srcdoc="<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv=&quot;content-type&quot; content=&quot;text/html; charset=UTF-8&quot; />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js&quot;></script>
+    <script src=&quot;https://code.jquery.com/jquery-1.12.4.min.js&quot;></script>
+    <script src=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js&quot;></script>
+    <script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js&quot;></script>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css&quot;/>
+    <link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css&quot;/>
+    
+            <meta name=&quot;viewport&quot; content=&quot;width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; />
+            <style>
+                #map_c86524aac10efa657d08c36e6ec41429 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class=&quot;folium-map&quot; id=&quot;map_c86524aac10efa657d08c36e6ec41429&quot; ></div>
+        
+</body>
+<script>
+    
+    
+            var map_c86524aac10efa657d08c36e6ec41429 = L.map(
+                &quot;map_c86524aac10efa657d08c36e6ec41429&quot;,
+                {
+                    center: [47.3666, 8.6795],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 11,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_0bd858087722c5eba920f2791b521b11 = L.tileLayer(
+                &quot;https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png&quot;,
+                {&quot;attribution&quot;: &quot;\u0026copy; \u003ca target=\&quot;_blank\&quot; href=\&quot;http://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca target=\&quot;_blank\&quot; href=\&quot;http://cartodb.com/attributions\&quot;\u003eCartoDB\u003c/a\u003e, CartoDB \u003ca target=\&quot;_blank\&quot; href =\&quot;http://cartodb.com/attributions\&quot;\u003eattributions\u003c/a\u003e&quot;, &quot;detectRetina&quot;: false, &quot;maxNativeZoom&quot;: 18, &quot;maxZoom&quot;: 18, &quot;minZoom&quot;: 0, &quot;noWrap&quot;: false, &quot;opacity&quot;: 1, &quot;subdomains&quot;: &quot;abc&quot;, &quot;tms&quot;: false}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_8e6e58ab31c32dac757db1ce871e7cab = L.polygon(
+                [[47.42575781971118, 8.409535757429014], [47.42119870806164, 8.4078136528368], [47.418225013224536, 8.412839471885992], [47.41981028890765, 8.419587712403171], [47.42436944364884, 8.42131060770733], [47.42734327963606, 8.416284471817049], [47.42575781971118, 8.409535757429014]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#fee186&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_0a666968f64240bc756802f92583cac5 = L.polygon(
+                [[47.40176615756998, 8.431216948558685], [47.39720593350841, 8.429493874405697], [47.394229934878005, 8.434517875928886], [47.39581401906854, 8.441265267644422], [47.400374286068235, 8.442989131881937], [47.40335042596006, 8.437964814354157], [47.40176615756998, 8.431216948558685]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#fed06c&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_479591fc7014ee4134b3a692dcc16e7f = L.polygon(
+                [[47.400374286068235, 8.442989131881937], [47.39581401906854, 8.441265267644422], [47.39283733871443, 8.446289051613988], [47.39442078404825, 8.453037015503195], [47.398981093849, 8.454761669726471], [47.40195791553567, 8.44973757010961], [47.400374286068235, 8.442989131881937]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ffeea2&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_4503d26ffe510f4f5fdb45c3725fea4e = L.polygon(
+                [[47.42714487491829, 8.397761264652114], [47.42258580649744, 8.396039950870067], [47.41961279359809, 8.401065986345916], [47.42119870806164, 8.4078136528368], [47.42575781971118, 8.409535757429014], [47.42873097368931, 8.404509404754807], [47.42714487491829, 8.397761264652114]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#fff9be&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_1f429f88ecf9613c73c32710a8912529 = L.polygon(
+                [[47.38210329380965, 8.774717495149865], [47.37754291007319, 8.772970925201289], [47.37454807583754, 8.77798981691106], [47.37611348203211, 8.784755584316116], [47.380673904609495, 8.786502941827658], [47.38366888217212, 8.78148374440753], [47.38210329380965, 8.774717495149865]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ffffcc&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_89b5be65aafcb20f19c546107a496a5a = L.polygon(
+                [[47.380673904609495, 8.786502941827658], [47.37611348203211, 8.784755584316116], [47.37311796592833, 8.78977424553068], [47.37468272902662, 8.796540569642735], [47.37924319030777, 8.7982887146123], [47.38223884980762, 8.793269748048226], [47.380673904609495, 8.786502941827658]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#800026&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_3085606f0695904d942856ea0ec4f7ea = L.polygon(
+                [[47.3684214688193, 8.76947846401317], [47.36386041141014, 8.767732572692188], [47.3608651819289, 8.772750622598327], [47.36243086659455, 8.779514869617522], [47.366991962970474, 8.781261548251763], [47.36998733573474, 8.776243192589922], [47.3684214688193, 8.76947846401317]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ffffcc&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_c5fffcfe279d75953700c425700e62d1 = L.polygon(
+                [[47.366991962970474, 8.781261548251763], [47.36243086659455, 8.779514869617522], [47.35943495538801, 8.784532689310469], [47.36099999722604, 8.791297493069164], [47.36556113243158, 8.7930449589119], [47.368557186990245, 8.78802683382383], [47.366991962970474, 8.781261548251763]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#fc8238&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_829350899ade740914cff48adad76f96 = L.polygon(
+                [[47.37597686091491, 8.766205715047413], [47.371416159784566, 8.76445987821676], [47.3684214688193, 8.76947846401317], [47.36998733573474, 8.776243192589922], [47.37454807583754, 8.77798981691106], [47.37754291007319, 8.772970925201289], [47.37597686091491, 8.766205715047413]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ffffcc&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_3dd825ce4580578e0a893b1d00037c94 = L.polygon(
+                [[47.37454807583754, 8.77798981691106], [47.36998733573474, 8.776243192589922], [47.366991962970474, 8.781261548251763], [47.368557186990245, 8.78802683382383], [47.37311796592833, 8.78977424553068], [47.37611348203211, 8.784755584316116], [47.37454807583754, 8.77798981691106]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#fff9be&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_1d0d25eda63a9fa65c1150019529ef63 = L.polygon(
+                [[47.410459230264536, 8.71774627097657], [47.405900072987926, 8.716003017927028], [47.40290958325199, 8.721024434893657], [47.40447810780144, 8.727789412572697], [47.40903730448432, 8.729533454134572], [47.41202793723225, 8.724511729541213], [47.410459230264536, 8.71774627097657]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ffffcc&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_861545f09a8d5c206c0063bae835547f = L.polygon(
+                [[47.4283928260179, 8.687610733043092], [47.42383446160114, 8.6858691687385], [47.42084641479653, 8.690892113241413], [47.42241658958183, 8.697656930749277], [47.426974993690145, 8.699399284128189], [47.42996318334239, 8.694376030960948], [47.4283928260179, 8.687610733043092]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#fee795&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_369b5a6aed3758b8825b1531a002ae48 = L.polygon(
+                [[47.229637837972874, 8.673439798765148], [47.225069878586595, 8.671703758209748], [47.22207288322547, 8.676713772738033], [47.22364370468557, 8.683460135332565], [47.22821170483651, 8.685196960943218], [47.231208842783346, 8.680186638939759], [47.229637837972874, 8.673439798765148]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#feda79&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_a52f8f27ecda1c98cb1911d44abae290 = L.polygon(
+                [[47.22207288322547, 8.676713772738033], [47.217504569544765, 8.674977676528757], [47.21450703654491, 8.679987157998996], [47.216077674647224, 8.686733043032095], [47.220646029086524, 8.688469924120733], [47.22364370468557, 8.683460135332565], [47.22207288322547, 8.676713772738033]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#fee795&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_a5ff15ef67856519c0e9012bb7537037 = L.polygon(
+                [[47.27216389402932, 8.677310377361566], [47.26759798092934, 8.675573099858106], [47.26460285187407, 8.68058586340802], [47.266173493294794, 8.687336212201084], [47.270739446920935, 8.689074275611157], [47.27373471862088, 8.6840612043573], [47.27216389402932, 8.677310377361566]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ffeea2&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_69fb318699f15577bf70c92ba5cc61da = L.polygon(
+                [[47.39724974517237, 8.589484066071327], [47.392689645086904, 8.587750054025728], [47.38970518155329, 8.592772039121522], [47.39128067590111, 8.599528347608194], [47.39584081701621, 8.601263148690448], [47.39882542277463, 8.59624085228491], [47.39724974517237, 8.589484066071327]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ffffcc&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_fb1e8184d6a81dbb48082b08e6d4afa0 = L.polygon(
+                [[47.40287223168635, 8.542371170089819], [47.398312297090634, 8.540640315202694], [47.39533056097575, 8.545663190078809], [47.39690861753406, 8.55241723262197], [47.40146859370788, 8.554148876950093], [47.40445047176606, 8.549125689329351], [47.40287223168635, 8.542371170089819]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#fff3b0&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_99e006a65650ad7cf2a646d25d38f75c = L.polygon(
+                [[47.36796546139508, 8.535281080891204], [47.36340382931454, 8.53355151476676], [47.36042075754599, 8.538572161629029], [47.36199917601064, 8.545322687317292], [47.366560849915665, 8.547053042201169], [47.36954406355232, 8.542032082672591], [47.36796546139508, 8.535281080891204]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#fff9be&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_af886e3ec9d803da6f4ddf2cb44c64f7 = L.polygon(
+                [[47.366560849915665, 8.547053042201169], [47.36199917601064, 8.545322687317292], [47.35901542274231, 8.55034311286685], [47.36059320146117, 8.557094205643864], [47.36515491705356, 8.558825349186657], [47.36813881226047, 8.553804611328792], [47.366560849915665, 8.547053042201169]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ffffcc&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_e3859001d604a7a21e498e00a8712125 = L.polygon(
+                [[47.381649017131885, 8.540471125433196], [47.37708805535785, 8.538740886183952], [47.37410538143837, 8.543762379769275], [47.37568352740151, 8.55051442526514], [47.38024453087412, 8.552245453526265], [47.38322734670578, 8.547223647314931], [47.381649017131885, 8.540471125433196]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#fff3b0&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_5a22427f08248775ab71776163e034bd = L.polygon(
+                [[47.375509269515646, 8.531989408291873], [47.37094799345971, 8.530259900131036], [47.36796546139508, 8.535281080891204], [47.36954406355232, 8.542032082672591], [47.37410538143837, 8.543762379769275], [47.37708805535785, 8.538740886183952], [47.375509269515646, 8.531989408291873]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ffffcc&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_625a8763f7e5ce918373d9926b065ee6 = L.polygon(
+                [[47.37410538143837, 8.543762379769275], [47.36954406355232, 8.542032082672591], [47.366560849915665, 8.547053042201169], [47.36813881226047, 8.553804611328792], [47.37270017183951, 8.55553569726083], [47.37568352740151, 8.55051442526514], [47.37410538143837, 8.543762379769275]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#fff9be&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_f020ff5b4fb09d5a8403aa6d387a72be = L.polygon(
+                [[47.38305218172926, 8.528697143693117], [47.378491261790906, 8.526967693556129], [47.375509269515646, 8.531989408291873], [47.37708805535785, 8.538740886183952], [47.381649017131885, 8.540471125433196], [47.38463115124878, 8.535449097713357], [47.38305218172926, 8.528697143693117]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ffeea2&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_43ca60ce60e17ea038b63151a2857d71 = L.polygon(
+                [[47.41795288353722, 8.535785352890732], [47.41339366199001, 8.53405461388756], [47.41041300593278, 8.539078557739822], [47.41199142952637, 8.545833553693381], [47.41655069266269, 8.54756508249094], [47.4195314906371, 8.542540825575847], [47.41795288353722, 8.535785352890732]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#fff9be&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_9b7edb142b2166b5c75f461183689da1 = L.polygon(
+                [[47.41655069266269, 8.54756508249094], [47.41199142952637, 8.545833553693381], [47.40901009146749, 8.550857275922333], [47.410587874578034, 8.557612839688298], [47.41514717916638, 8.559345158179529], [47.418128659212954, 8.55432112324647], [47.41655069266269, 8.54756508249094]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#fee186&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_afd543edcd02021c3638df170bbf95fe = L.polygon(
+                [[47.41041300593278, 8.539078557739822], [47.405853427814996, 8.537347760764542], [47.40287223168635, 8.542371170089819], [47.40445047176606, 8.549125689329351], [47.40901009146749, 8.550857275922333], [47.41199142952637, 8.545833553693381], [47.41041300593278, 8.539078557739822]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ffffcc&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_4afbf1a7f596c95cbc0f6634b08a3173 = L.polygon(
+                [[47.391995317232414, 8.51362964253011], [47.38743479548303, 8.511901039866224], [47.38445402480025, 8.516923509285034], [47.38603363412981, 8.523674894904099], [47.39059419785759, 8.525404286956942], [47.39357511029819, 8.520381504036914], [47.391995317232414, 8.51362964253011]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#fff9be&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+    
+            var polygon_3be9097bc2ff5d291642a8269dd6e3ac = L.polygon(
+                [[47.39059419785759, 8.525404286956942], [47.38603363412981, 8.523674894904099], [47.38305218172926, 8.528697143693117], [47.38463115124878, 8.535449097713357], [47.38919175681783, 8.537179279054998], [47.39217335104685, 8.532156717122817], [47.39059419785759, 8.525404286956942]],
+                {&quot;bubblingMouseEvents&quot;: true, &quot;color&quot;: &quot;black&quot;, &quot;dashArray&quot;: null, &quot;dashOffset&quot;: null, &quot;fill&quot;: true, &quot;fillColor&quot;: &quot;#ffffcc&quot;, &quot;fillOpacity&quot;: 0.8, &quot;fillRule&quot;: &quot;evenodd&quot;, &quot;lineCap&quot;: &quot;round&quot;, &quot;lineJoin&quot;: &quot;round&quot;, &quot;noClip&quot;: false, &quot;opacity&quot;: 1.0, &quot;smoothFactor&quot;: 1.0, &quot;stroke&quot;: true, &quot;weight&quot;: 1}
+            ).addTo(map_c86524aac10efa657d08c36e6ec41429);
+        
+</script>
+</html>" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe></div></div>
 </div>
 </div>
 </section>
@@ -222,264 +446,264 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h3 class="anchored" data-anchor-id="point-based-1">Point-based</h3>
 <!-- Testing if rendering of code works-->
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial.distance <span class="im">import</span> pdist, squareform</span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> DBSCAN</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> haversine <span class="im">import</span> haversine</span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium.plugins</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PointBasedEntity:</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.visits <span class="op">=</span> pd.DataFrame()</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations <span class="op">=</span> gpd.GeoDataFrame()</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> create_locations(<span class="va">self</span>, cluster_radius<span class="op">=</span><span class="fl">0.0025</span>):        </span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert locations to 2D numpy array</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a>        points <span class="op">=</span> np.array(<span class="va">self</span>.visits[<span class="st">'location'</span>].tolist())</span>
-<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create the distance matrix</span></span>
-<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>        dist_matrix <span class="op">=</span> squareform(pdist(points, metric<span class="op">=</span><span class="st">'euclidean'</span>))</span>
-<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Perform DBSCAN clustering</span></span>
-<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>        dbscan <span class="op">=</span> DBSCAN(eps<span class="op">=</span>cluster_radius, metric<span class="op">=</span><span class="st">'precomputed'</span>, min_samples<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>        labels <span class="op">=</span> dbscan.fit_predict(dist_matrix)</span>
-<span id="cb5-26"><a href="#cb5-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-27"><a href="#cb5-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create a copy of the visits DataFrame</span></span>
-<span id="cb5-28"><a href="#cb5-28" aria-hidden="true" tabindex="-1"></a>        visits_with_labels <span class="op">=</span> <span class="va">self</span>.visits.copy()</span>
-<span id="cb5-29"><a href="#cb5-29" aria-hidden="true" tabindex="-1"></a>        visits_with_labels[<span class="st">'label'</span>] <span class="op">=</span> labels</span>
-<span id="cb5-30"><a href="#cb5-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-31"><a href="#cb5-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Group the visits by location label</span></span>
-<span id="cb5-32"><a href="#cb5-32" aria-hidden="true" tabindex="-1"></a>        locations <span class="op">=</span> visits_with_labels.groupby(<span class="st">'label'</span>)</span>
-<span id="cb5-33"><a href="#cb5-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-34"><a href="#cb5-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize the locations DataFrame</span></span>
-<span id="cb5-35"><a href="#cb5-35" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations <span class="op">=</span> pd.DataFrame()</span>
-<span id="cb5-36"><a href="#cb5-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-37"><a href="#cb5-37" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the statistics for each unique location</span></span>
-<span id="cb5-38"><a href="#cb5-38" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations[<span class="st">'num_visits'</span>] <span class="op">=</span> locations.size()</span>
-<span id="cb5-39"><a href="#cb5-39" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations[<span class="st">'avg_time'</span>] <span class="op">=</span> locations[<span class="st">'duration'</span>].mean()</span>
-<span id="cb5-40"><a href="#cb5-40" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations[<span class="st">'avg_time'</span>] <span class="op">=</span> <span class="va">self</span>.locations[<span class="st">'avg_time'</span>].dt.<span class="bu">round</span>(<span class="st">'S'</span>)</span>
-<span id="cb5-41"><a href="#cb5-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations[<span class="st">'total_time'</span>] <span class="op">=</span> locations[<span class="st">'duration'</span>].<span class="bu">sum</span>()</span>
-<span id="cb5-42"><a href="#cb5-42" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-43"><a href="#cb5-43" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the location centroid for each group</span></span>
-<span id="cb5-44"><a href="#cb5-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations[<span class="st">'location'</span>] <span class="op">=</span> locations[<span class="st">'location'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: np.mean(np.array(x.tolist()), axis<span class="op">=</span><span class="dv">0</span>))</span>
-<span id="cb5-45"><a href="#cb5-45" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-46"><a href="#cb5-46" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert the DataFrame to a GeoDataFrame</span></span>
-<span id="cb5-47"><a href="#cb5-47" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations <span class="op">=</span> gpd.GeoDataFrame(<span class="va">self</span>.locations, geometry<span class="op">=</span><span class="va">self</span>.locations[<span class="st">'location'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: Point(x[<span class="dv">0</span>], x[<span class="dv">1</span>])))</span>
-<span id="cb5-48"><a href="#cb5-48" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-49"><a href="#cb5-49" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> map_locations(<span class="va">self</span>, column<span class="op">=</span><span class="st">'num_visits'</span>):</span>
-<span id="cb5-50"><a href="#cb5-50" aria-hidden="true" tabindex="-1"></a>        gradient <span class="op">=</span> {</span>
-<span id="cb5-51"><a href="#cb5-51" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.0</span>: <span class="st">'#ffffcc'</span>,</span>
-<span id="cb5-52"><a href="#cb5-52" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.1</span>: <span class="st">'#fff1a9'</span>,</span>
-<span id="cb5-53"><a href="#cb5-53" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.2</span>: <span class="st">'#fee187'</span>,</span>
-<span id="cb5-54"><a href="#cb5-54" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.3</span>: <span class="st">'#feca66'</span>,</span>
-<span id="cb5-55"><a href="#cb5-55" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.4</span>: <span class="st">'#feab49'</span>,</span>
-<span id="cb5-56"><a href="#cb5-56" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.5</span>: <span class="st">'#fd8c3c'</span>,</span>
-<span id="cb5-57"><a href="#cb5-57" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.6</span>: <span class="st">'#fc5b2e'</span>,</span>
-<span id="cb5-58"><a href="#cb5-58" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.7</span>: <span class="st">'#ed2e21'</span>,</span>
-<span id="cb5-59"><a href="#cb5-59" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.8</span>: <span class="st">'#d41020'</span>,</span>
-<span id="cb5-60"><a href="#cb5-60" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.9</span>: <span class="st">'#b00026'</span>,</span>
-<span id="cb5-61"><a href="#cb5-61" aria-hidden="true" tabindex="-1"></a>            <span class="fl">1.0</span>: <span class="st">'#800026'</span></span>
-<span id="cb5-62"><a href="#cb5-62" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb5-63"><a href="#cb5-63" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-64"><a href="#cb5-64" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize the map at the center of all locations</span></span>
-<span id="cb5-65"><a href="#cb5-65" aria-hidden="true" tabindex="-1"></a>        map_center <span class="op">=</span> [<span class="fl">47.3666</span>, <span class="fl">8.6795</span>] <span class="co">#[self.locations.geometry.centroid.y.mean(), self.locations.geometry.centroid.x.mean()]</span></span>
-<span id="cb5-66"><a href="#cb5-66" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-67"><a href="#cb5-67" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create a folium Map</span></span>
-<span id="cb5-68"><a href="#cb5-68" aria-hidden="true" tabindex="-1"></a>        m <span class="op">=</span> folium.Map(location<span class="op">=</span>map_center, zoom_start<span class="op">=</span><span class="dv">11</span>, tiles<span class="op">=</span><span class="st">'cartodbpositron'</span>, max_zoom <span class="op">=</span> <span class="dv">17</span>)</span>
-<span id="cb5-69"><a href="#cb5-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-70"><a href="#cb5-70" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add HeatMap to the map</span></span>
-<span id="cb5-71"><a href="#cb5-71" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> [[row[<span class="st">'geometry'</span>].x, row[<span class="st">'geometry'</span>].y, row[column]] <span class="cf">for</span> _, row <span class="kw">in</span> <span class="va">self</span>.locations.iterrows()]</span>
-<span id="cb5-72"><a href="#cb5-72" aria-hidden="true" tabindex="-1"></a>        folium.plugins.HeatMap(data, gradient<span class="op">=</span>gradient).add_to(m)</span>
-<span id="cb5-73"><a href="#cb5-73" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-74"><a href="#cb5-74" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> m</span>
-<span id="cb5-75"><a href="#cb5-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-76"><a href="#cb5-76" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-77"><a href="#cb5-77" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PointBasedPerson(PointBasedEntity):</span>
-<span id="cb5-78"><a href="#cb5-78" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, user_id, dist_threshold):</span>
-<span id="cb5-79"><a href="#cb5-79" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb5-80"><a href="#cb5-80" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.user_id <span class="op">=</span> user_id</span>
-<span id="cb5-81"><a href="#cb5-81" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dist_threshold <span class="op">=</span> dist_threshold  <span class="co"># Distance threshold in km</span></span>
-<span id="cb5-82"><a href="#cb5-82" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.visits <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">'start_time'</span>, <span class="st">'end_time'</span>, <span class="st">'location'</span>, <span class="st">'duration'</span>])</span>
-<span id="cb5-83"><a href="#cb5-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-84"><a href="#cb5-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
-<span id="cb5-85"><a href="#cb5-85" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> from_csv(cls, filename, dist_threshold, visit_threshold<span class="op">=</span>pd.Timedelta(<span class="st">'5 minute'</span>)):</span>
-<span id="cb5-86"><a href="#cb5-86" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> pd.read_csv(filename)</span>
-<span id="cb5-87"><a href="#cb5-87" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-88"><a href="#cb5-88" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Remove rows with missing coordinates</span></span>
-<span id="cb5-89"><a href="#cb5-89" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> data.dropna(subset<span class="op">=</span>[<span class="st">'lat_y'</span>, <span class="st">'lon_x'</span>])</span>
-<span id="cb5-90"><a href="#cb5-90" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-91"><a href="#cb5-91" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert the datetime to a pandas datetime object</span></span>
-<span id="cb5-92"><a href="#cb5-92" aria-hidden="true" tabindex="-1"></a>        data[<span class="st">'datetime'</span>] <span class="op">=</span> pd.to_datetime(data[<span class="st">'datetime'</span>])</span>
-<span id="cb5-93"><a href="#cb5-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-94"><a href="#cb5-94" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Sort the data by datetime</span></span>
-<span id="cb5-95"><a href="#cb5-95" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> data.sort_values(<span class="st">'datetime'</span>)</span>
-<span id="cb5-96"><a href="#cb5-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-97"><a href="#cb5-97" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize the person</span></span>
-<span id="cb5-98"><a href="#cb5-98" aria-hidden="true" tabindex="-1"></a>        person <span class="op">=</span> cls(user_id<span class="op">=</span>data.iloc[<span class="dv">0</span>][<span class="st">'user_id'</span>], dist_threshold<span class="op">=</span>dist_threshold)</span>
-<span id="cb5-99"><a href="#cb5-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-100"><a href="#cb5-100" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize the first visit with the first row</span></span>
-<span id="cb5-101"><a href="#cb5-101" aria-hidden="true" tabindex="-1"></a>        current_visit <span class="op">=</span> {</span>
-<span id="cb5-102"><a href="#cb5-102" aria-hidden="true" tabindex="-1"></a>            <span class="st">'start_time'</span>: data.iloc[<span class="dv">0</span>][<span class="st">'datetime'</span>],</span>
-<span id="cb5-103"><a href="#cb5-103" aria-hidden="true" tabindex="-1"></a>            <span class="st">'end_time'</span>: data.iloc[<span class="dv">0</span>][<span class="st">'datetime'</span>],</span>
-<span id="cb5-104"><a href="#cb5-104" aria-hidden="true" tabindex="-1"></a>            <span class="st">'location'</span>: (data.iloc[<span class="dv">0</span>][<span class="st">'lat_y'</span>], data.iloc[<span class="dv">0</span>][<span class="st">'lon_x'</span>]),</span>
-<span id="cb5-105"><a href="#cb5-105" aria-hidden="true" tabindex="-1"></a>            <span class="st">'points'</span>: [(data.iloc[<span class="dv">0</span>][<span class="st">'lat_y'</span>], data.iloc[<span class="dv">0</span>][<span class="st">'lon_x'</span>])]</span>
-<span id="cb5-106"><a href="#cb5-106" aria-hidden="true" tabindex="-1"></a>        }</span>
-<span id="cb5-107"><a href="#cb5-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-108"><a href="#cb5-108" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Iterate over the rest of the rows</span></span>
-<span id="cb5-109"><a href="#cb5-109" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(data)):</span>
-<span id="cb5-110"><a href="#cb5-110" aria-hidden="true" tabindex="-1"></a>            current_row <span class="op">=</span> data.iloc[i]</span>
-<span id="cb5-111"><a href="#cb5-111" aria-hidden="true" tabindex="-1"></a>            current_location <span class="op">=</span> (current_row[<span class="st">'lat_y'</span>], current_row[<span class="st">'lon_x'</span>])</span>
-<span id="cb5-112"><a href="#cb5-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-113"><a href="#cb5-113" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calculate centroid of current visit</span></span>
-<span id="cb5-114"><a href="#cb5-114" aria-hidden="true" tabindex="-1"></a>            lat_centroid <span class="op">=</span> <span class="bu">sum</span>(p[<span class="dv">0</span>] <span class="cf">for</span> p <span class="kw">in</span> current_visit[<span class="st">'points'</span>]) <span class="op">/</span> <span class="bu">len</span>(current_visit[<span class="st">'points'</span>])</span>
-<span id="cb5-115"><a href="#cb5-115" aria-hidden="true" tabindex="-1"></a>            lon_centroid <span class="op">=</span> <span class="bu">sum</span>(p[<span class="dv">1</span>] <span class="cf">for</span> p <span class="kw">in</span> current_visit[<span class="st">'points'</span>]) <span class="op">/</span> <span class="bu">len</span>(current_visit[<span class="st">'points'</span>])</span>
-<span id="cb5-116"><a href="#cb5-116" aria-hidden="true" tabindex="-1"></a>            centroid <span class="op">=</span> (lat_centroid, lon_centroid)</span>
-<span id="cb5-117"><a href="#cb5-117" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-118"><a href="#cb5-118" aria-hidden="true" tabindex="-1"></a>            <span class="co"># If the haversine distance to the centroid is above the threshold, it's the end of a visit</span></span>
-<span id="cb5-119"><a href="#cb5-119" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> haversine(centroid, current_location) <span class="op">&gt;</span> person.dist_threshold:</span>
-<span id="cb5-120"><a href="#cb5-120" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Update the end time of the last visit</span></span>
-<span id="cb5-121"><a href="#cb5-121" aria-hidden="true" tabindex="-1"></a>                current_visit[<span class="st">'end_time'</span>] <span class="op">=</span> data.iloc[i <span class="op">-</span> <span class="dv">1</span>][<span class="st">'datetime'</span>]</span>
-<span id="cb5-122"><a href="#cb5-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-123"><a href="#cb5-123" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Compute the duration of the visit</span></span>
-<span id="cb5-124"><a href="#cb5-124" aria-hidden="true" tabindex="-1"></a>                current_visit[<span class="st">'duration'</span>] <span class="op">=</span> current_visit[<span class="st">'end_time'</span>] <span class="op">-</span> current_visit[<span class="st">'start_time'</span>]</span>
-<span id="cb5-125"><a href="#cb5-125" aria-hidden="true" tabindex="-1"></a>                </span>
-<span id="cb5-126"><a href="#cb5-126" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Update the location of the visit</span></span>
-<span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>                current_visit[<span class="st">'location'</span>] <span class="op">=</span> centroid</span>
-<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Check if the visit duration is long enough to be considered a valid visit</span></span>
-<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> current_visit[<span class="st">'duration'</span>] <span class="op">&gt;=</span> visit_threshold:</span>
-<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># Add the visit to the person</span></span>
-<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>                    person.visits <span class="op">=</span> pd.concat([person.visits, pd.DataFrame([current_visit])], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Start a new visit</span></span>
-<span id="cb5-135"><a href="#cb5-135" aria-hidden="true" tabindex="-1"></a>                current_visit <span class="op">=</span> {</span>
-<span id="cb5-136"><a href="#cb5-136" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'start_time'</span>: current_row[<span class="st">'datetime'</span>],</span>
-<span id="cb5-137"><a href="#cb5-137" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'end_time'</span>: current_row[<span class="st">'datetime'</span>],</span>
-<span id="cb5-138"><a href="#cb5-138" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'location'</span>: current_location,</span>
-<span id="cb5-139"><a href="#cb5-139" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'points'</span>: [current_location]</span>
-<span id="cb5-140"><a href="#cb5-140" aria-hidden="true" tabindex="-1"></a>                }</span>
-<span id="cb5-141"><a href="#cb5-141" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
-<span id="cb5-142"><a href="#cb5-142" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Add the current location to the points of the current visit</span></span>
-<span id="cb5-143"><a href="#cb5-143" aria-hidden="true" tabindex="-1"></a>                current_visit[<span class="st">'points'</span>].append(current_location)</span>
-<span id="cb5-144"><a href="#cb5-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-145"><a href="#cb5-145" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Don't forget to check and potentially add the last visit</span></span>
-<span id="cb5-146"><a href="#cb5-146" aria-hidden="true" tabindex="-1"></a>        current_visit[<span class="st">'end_time'</span>] <span class="op">=</span> data.iloc[<span class="op">-</span><span class="dv">1</span>][<span class="st">'datetime'</span>]</span>
-<span id="cb5-147"><a href="#cb5-147" aria-hidden="true" tabindex="-1"></a>        current_visit[<span class="st">'duration'</span>] <span class="op">=</span> current_visit[<span class="st">'end_time'</span>] <span class="op">-</span> current_visit[<span class="st">'start_time'</span>]</span>
-<span id="cb5-148"><a href="#cb5-148" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> current_visit[<span class="st">'duration'</span>] <span class="op">&gt;=</span> visit_threshold:</span>
-<span id="cb5-149"><a href="#cb5-149" aria-hidden="true" tabindex="-1"></a>            person.visits <span class="op">=</span> pd.concat([person.visits, pd.DataFrame([current_visit])], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-150"><a href="#cb5-150" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-151"><a href="#cb5-151" aria-hidden="true" tabindex="-1"></a>        <span class="co"># After all visits are processed, create the locations DataFrame</span></span>
-<span id="cb5-152"><a href="#cb5-152" aria-hidden="true" tabindex="-1"></a>        person.create_locations()</span>
-<span id="cb5-153"><a href="#cb5-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-154"><a href="#cb5-154" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> person</span>
-<span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PointBasedUnionGroup(PointBasedEntity):</span>
-<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.people <span class="op">=</span> []</span>
-<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.visits <span class="op">=</span> pd.DataFrame()</span>
-<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-163"><a href="#cb5-163" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> add_person(<span class="va">self</span>, person):</span>
-<span id="cb5-164"><a href="#cb5-164" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> <span class="bu">isinstance</span>(person, PointBasedPerson), <span class="st">"Input person is not an instance of the PointBasedPerson class."</span></span>
-<span id="cb5-165"><a href="#cb5-165" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.people.append(person)</span>
-<span id="cb5-166"><a href="#cb5-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-167"><a href="#cb5-167" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> compute_visits(<span class="va">self</span>):</span>
-<span id="cb5-168"><a href="#cb5-168" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Combine all visits from all people</span></span>
-<span id="cb5-169"><a href="#cb5-169" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.visits <span class="op">=</span> pd.concat([person.visits <span class="cf">for</span> person <span class="kw">in</span> <span class="va">self</span>.people], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-170"><a href="#cb5-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-171"><a href="#cb5-171" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the locations DataFrame</span></span>
-<span id="cb5-172"><a href="#cb5-172" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.create_locations()</span>
-<span id="cb5-173"><a href="#cb5-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-174"><a href="#cb5-174" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-175"><a href="#cb5-175" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PointBasedIntersectGroup(PointBasedEntity):</span>
-<span id="cb5-176"><a href="#cb5-176" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
-<span id="cb5-177"><a href="#cb5-177" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
-<span id="cb5-178"><a href="#cb5-178" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.people <span class="op">=</span> []</span>
-<span id="cb5-179"><a href="#cb5-179" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.visits <span class="op">=</span> pd.DataFrame()</span>
-<span id="cb5-180"><a href="#cb5-180" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-181"><a href="#cb5-181" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> add_person(<span class="va">self</span>, person):</span>
-<span id="cb5-182"><a href="#cb5-182" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.people.append(person)</span>
-<span id="cb5-183"><a href="#cb5-183" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-184"><a href="#cb5-184" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> compute_visits(<span class="va">self</span>, n_min<span class="op">=</span><span class="dv">2</span>, n<span class="op">=</span><span class="va">None</span>, min_duration<span class="op">=</span>pd.Timedelta(<span class="st">'5 minutes'</span>), cluster_radius<span class="op">=</span><span class="fl">0.0025</span>):</span>
-<span id="cb5-185"><a href="#cb5-185" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Concatenate all visits from all people</span></span>
-<span id="cb5-186"><a href="#cb5-186" aria-hidden="true" tabindex="-1"></a>        all_visits <span class="op">=</span> pd.concat([person.visits <span class="cf">for</span> person <span class="kw">in</span> <span class="va">self</span>.people], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-187"><a href="#cb5-187" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-188"><a href="#cb5-188" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create separate 'lat' and 'lon' columns</span></span>
-<span id="cb5-189"><a href="#cb5-189" aria-hidden="true" tabindex="-1"></a>        all_visits[[<span class="st">'lat'</span>, <span class="st">'lon'</span>]] <span class="op">=</span> pd.DataFrame(all_visits[<span class="st">'location'</span>].tolist(), index<span class="op">=</span>all_visits.index)</span>
-<span id="cb5-190"><a href="#cb5-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-191"><a href="#cb5-191" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the distance matrix</span></span>
-<span id="cb5-192"><a href="#cb5-192" aria-hidden="true" tabindex="-1"></a>        dist_matrix <span class="op">=</span> squareform(pdist(all_visits[[<span class="st">'lat'</span>, <span class="st">'lon'</span>]], metric<span class="op">=</span><span class="st">'euclidean'</span>))</span>
-<span id="cb5-193"><a href="#cb5-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-194"><a href="#cb5-194" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Apply DBSCAN on the distance matrix</span></span>
-<span id="cb5-195"><a href="#cb5-195" aria-hidden="true" tabindex="-1"></a>        dbscan <span class="op">=</span> DBSCAN(eps<span class="op">=</span>cluster_radius, metric<span class="op">=</span><span class="st">'precomputed'</span>, min_samples<span class="op">=</span><span class="dv">1</span>)</span>
-<span id="cb5-196"><a href="#cb5-196" aria-hidden="true" tabindex="-1"></a>        labels <span class="op">=</span> dbscan.fit_predict(dist_matrix)</span>
-<span id="cb5-197"><a href="#cb5-197" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-198"><a href="#cb5-198" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Assign cluster labels to the visits</span></span>
-<span id="cb5-199"><a href="#cb5-199" aria-hidden="true" tabindex="-1"></a>        all_visits[<span class="st">'cluster'</span>] <span class="op">=</span> labels</span>
-<span id="cb5-200"><a href="#cb5-200" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-201"><a href="#cb5-201" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the centroid for each cluster and assign to each visit within the cluster</span></span>
-<span id="cb5-202"><a href="#cb5-202" aria-hidden="true" tabindex="-1"></a>        centroid_df <span class="op">=</span> all_visits.groupby(<span class="st">'cluster'</span>)[[<span class="st">'lat'</span>, <span class="st">'lon'</span>]].mean().rename(columns<span class="op">=</span>{<span class="st">'lat'</span>: <span class="st">'centroid_lat'</span>, <span class="st">'lon'</span>: <span class="st">'centroid_lon'</span>})</span>
-<span id="cb5-203"><a href="#cb5-203" aria-hidden="true" tabindex="-1"></a>        all_visits <span class="op">=</span> all_visits.join(centroid_df, on<span class="op">=</span><span class="st">'cluster'</span>)</span>
-<span id="cb5-204"><a href="#cb5-204" aria-hidden="true" tabindex="-1"></a>        all_visits[<span class="st">'location'</span>] <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(all_visits[<span class="st">'centroid_lat'</span>], all_visits[<span class="st">'centroid_lon'</span>]))</span>
-<span id="cb5-205"><a href="#cb5-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-206"><a href="#cb5-206" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Split each visit into one-minute intervals and assign the cluster label to the segments</span></span>
-<span id="cb5-207"><a href="#cb5-207" aria-hidden="true" tabindex="-1"></a>        intervals_df <span class="op">=</span> pd.DataFrame()</span>
-<span id="cb5-208"><a href="#cb5-208" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> _, visit <span class="kw">in</span> all_visits.iterrows():</span>
-<span id="cb5-209"><a href="#cb5-209" aria-hidden="true" tabindex="-1"></a>            time_range <span class="op">=</span> pd.date_range(start<span class="op">=</span>visit[<span class="st">'start_time'</span>], end<span class="op">=</span>visit[<span class="st">'end_time'</span>], freq<span class="op">=</span><span class="st">'T'</span>)</span>
-<span id="cb5-210"><a href="#cb5-210" aria-hidden="true" tabindex="-1"></a>            df <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time_range, <span class="st">'location'</span>: [visit[<span class="st">'location'</span>]]<span class="op">*</span><span class="bu">len</span>(time_range)})</span>
-<span id="cb5-211"><a href="#cb5-211" aria-hidden="true" tabindex="-1"></a>            intervals_df <span class="op">=</span> pd.concat([intervals_df, df], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb5-212"><a href="#cb5-212" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-213"><a href="#cb5-213" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Remove seconds from the time values</span></span>
-<span id="cb5-214"><a href="#cb5-214" aria-hidden="true" tabindex="-1"></a>        intervals_df[<span class="st">'time'</span>] <span class="op">=</span> intervals_df[<span class="st">'time'</span>].dt.floor(<span class="st">'T'</span>)</span>
-<span id="cb5-215"><a href="#cb5-215" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-216"><a href="#cb5-216" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Group by cluster and time, and count the number of occurrences</span></span>
-<span id="cb5-217"><a href="#cb5-217" aria-hidden="true" tabindex="-1"></a>        intervals_count <span class="op">=</span> intervals_df.groupby([<span class="st">'location'</span>, <span class="st">'time'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'counts'</span>)</span>
-<span id="cb5-218"><a href="#cb5-218" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-219"><a href="#cb5-219" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Filter out the visits where the number of occurrences is less than n or n_min</span></span>
-<span id="cb5-220"><a href="#cb5-220" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> n <span class="kw">is</span> <span class="va">None</span>:</span>
-<span id="cb5-221"><a href="#cb5-221" aria-hidden="true" tabindex="-1"></a>            common_intervals <span class="op">=</span> intervals_count[intervals_count[<span class="st">'counts'</span>] <span class="op">&gt;=</span> n_min]</span>
-<span id="cb5-222"><a href="#cb5-222" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
-<span id="cb5-223"><a href="#cb5-223" aria-hidden="true" tabindex="-1"></a>            common_intervals <span class="op">=</span> intervals_count[intervals_count[<span class="st">'counts'</span>] <span class="op">==</span> n]</span>
-<span id="cb5-224"><a href="#cb5-224" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-225"><a href="#cb5-225" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Sort by time and group by cluster, and get the start and end times of continuous time blocks</span></span>
-<span id="cb5-226"><a href="#cb5-226" aria-hidden="true" tabindex="-1"></a>        common_intervals <span class="op">=</span> common_intervals.sort_values(<span class="st">'time'</span>)</span>
-<span id="cb5-227"><a href="#cb5-227" aria-hidden="true" tabindex="-1"></a>        common_intervals[<span class="st">'block'</span>] <span class="op">=</span> (common_intervals[<span class="st">'time'</span>].diff() <span class="op">&gt;</span> pd.Timedelta(<span class="st">'1 minute'</span>)).cumsum()</span>
-<span id="cb5-228"><a href="#cb5-228" aria-hidden="true" tabindex="-1"></a>        common_visits <span class="op">=</span> common_intervals.groupby([<span class="st">'location'</span>, <span class="st">'block'</span>]).agg({<span class="st">'time'</span>: [<span class="st">'min'</span>, <span class="st">'max'</span>], <span class="st">'counts'</span>: <span class="st">'size'</span>}).reset_index()</span>
-<span id="cb5-229"><a href="#cb5-229" aria-hidden="true" tabindex="-1"></a>        common_visits.columns <span class="op">=</span> [<span class="st">'location'</span>, <span class="st">'block'</span>, <span class="st">'start_time'</span>, <span class="st">'end_time'</span>, <span class="st">'counts'</span>]</span>
-<span id="cb5-230"><a href="#cb5-230" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-231"><a href="#cb5-231" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert the counts of times to durations</span></span>
-<span id="cb5-232"><a href="#cb5-232" aria-hidden="true" tabindex="-1"></a>        common_visits[<span class="st">'duration'</span>] <span class="op">=</span> common_visits[<span class="st">'counts'</span>] <span class="op">*</span> pd.Timedelta(<span class="st">'1 minutes'</span>)</span>
-<span id="cb5-233"><a href="#cb5-233" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-234"><a href="#cb5-234" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Filter out the visits where the duration is less than the minimum duration</span></span>
-<span id="cb5-235"><a href="#cb5-235" aria-hidden="true" tabindex="-1"></a>        common_visits <span class="op">=</span> common_visits[common_visits[<span class="st">'duration'</span>] <span class="op">&gt;=</span> min_duration]</span>
-<span id="cb5-236"><a href="#cb5-236" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-237"><a href="#cb5-237" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Drop the unnecessary columns</span></span>
-<span id="cb5-238"><a href="#cb5-238" aria-hidden="true" tabindex="-1"></a>        common_visits <span class="op">=</span> common_visits.drop(columns<span class="op">=</span>[<span class="st">'block'</span>, <span class="st">'counts'</span>])</span>
-<span id="cb5-239"><a href="#cb5-239" aria-hidden="true" tabindex="-1"></a>        </span>
-<span id="cb5-240"><a href="#cb5-240" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Update the visits attribute</span></span>
-<span id="cb5-241"><a href="#cb5-241" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.visits <span class="op">=</span> common_visits</span>
-<span id="cb5-242"><a href="#cb5-242" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-243"><a href="#cb5-243" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the locations DataFrame</span></span>
-<span id="cb5-244"><a href="#cb5-244" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.create_locations()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> geopandas <span class="im">as</span> gpd</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.spatial.distance <span class="im">import</span> pdist, squareform</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> DBSCAN</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> shapely.geometry <span class="im">import</span> Point</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> haversine <span class="im">import</span> haversine</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> folium.plugins</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PointBasedEntity:</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.visits <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations <span class="op">=</span> gpd.GeoDataFrame()</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> create_locations(<span class="va">self</span>, cluster_radius<span class="op">=</span><span class="fl">0.0025</span>):        </span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert locations to 2D numpy array</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>        points <span class="op">=</span> np.array(<span class="va">self</span>.visits[<span class="st">'location'</span>].tolist())</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create the distance matrix</span></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        dist_matrix <span class="op">=</span> squareform(pdist(points, metric<span class="op">=</span><span class="st">'euclidean'</span>))</span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Perform DBSCAN clustering</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>        dbscan <span class="op">=</span> DBSCAN(eps<span class="op">=</span>cluster_radius, metric<span class="op">=</span><span class="st">'precomputed'</span>, min_samples<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>        labels <span class="op">=</span> dbscan.fit_predict(dist_matrix)</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create a copy of the visits DataFrame</span></span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>        visits_with_labels <span class="op">=</span> <span class="va">self</span>.visits.copy()</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>        visits_with_labels[<span class="st">'label'</span>] <span class="op">=</span> labels</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Group the visits by location label</span></span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>        locations <span class="op">=</span> visits_with_labels.groupby(<span class="st">'label'</span>)</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize the locations DataFrame</span></span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the statistics for each unique location</span></span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations[<span class="st">'num_visits'</span>] <span class="op">=</span> locations.size()</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations[<span class="st">'avg_time'</span>] <span class="op">=</span> locations[<span class="st">'duration'</span>].mean()</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations[<span class="st">'avg_time'</span>] <span class="op">=</span> <span class="va">self</span>.locations[<span class="st">'avg_time'</span>].dt.<span class="bu">round</span>(<span class="st">'S'</span>)</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations[<span class="st">'total_time'</span>] <span class="op">=</span> locations[<span class="st">'duration'</span>].<span class="bu">sum</span>()</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the location centroid for each group</span></span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations[<span class="st">'location'</span>] <span class="op">=</span> locations[<span class="st">'location'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: np.mean(np.array(x.tolist()), axis<span class="op">=</span><span class="dv">0</span>))</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert the DataFrame to a GeoDataFrame</span></span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.locations <span class="op">=</span> gpd.GeoDataFrame(<span class="va">self</span>.locations, geometry<span class="op">=</span><span class="va">self</span>.locations[<span class="st">'location'</span>].<span class="bu">apply</span>(<span class="kw">lambda</span> x: Point(x[<span class="dv">0</span>], x[<span class="dv">1</span>])))</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> map_locations(<span class="va">self</span>, column<span class="op">=</span><span class="st">'num_visits'</span>):</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>        gradient <span class="op">=</span> {</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.0</span>: <span class="st">'#ffffcc'</span>,</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.1</span>: <span class="st">'#fff1a9'</span>,</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.2</span>: <span class="st">'#fee187'</span>,</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.3</span>: <span class="st">'#feca66'</span>,</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.4</span>: <span class="st">'#feab49'</span>,</span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.5</span>: <span class="st">'#fd8c3c'</span>,</span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.6</span>: <span class="st">'#fc5b2e'</span>,</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.7</span>: <span class="st">'#ed2e21'</span>,</span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.8</span>: <span class="st">'#d41020'</span>,</span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>            <span class="fl">0.9</span>: <span class="st">'#b00026'</span>,</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>            <span class="fl">1.0</span>: <span class="st">'#800026'</span></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize the map at the center of all locations</span></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a>        map_center <span class="op">=</span> [<span class="fl">47.3666</span>, <span class="fl">8.6795</span>] <span class="co">#[self.locations.geometry.centroid.y.mean(), self.locations.geometry.centroid.x.mean()]</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create a folium Map</span></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>        m <span class="op">=</span> folium.Map(location<span class="op">=</span>map_center, zoom_start<span class="op">=</span><span class="dv">11</span>, tiles<span class="op">=</span><span class="st">'cartodbpositron'</span>, max_zoom <span class="op">=</span> <span class="dv">17</span>)</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Add HeatMap to the map</span></span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> [[row[<span class="st">'geometry'</span>].x, row[<span class="st">'geometry'</span>].y, row[column]] <span class="cf">for</span> _, row <span class="kw">in</span> <span class="va">self</span>.locations.iterrows()]</span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a>        folium.plugins.HeatMap(data, gradient<span class="op">=</span>gradient).add_to(m)</span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> m</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PointBasedPerson(PointBasedEntity):</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, user_id, dist_threshold):</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.user_id <span class="op">=</span> user_id</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dist_threshold <span class="op">=</span> dist_threshold  <span class="co"># Distance threshold in km</span></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.visits <span class="op">=</span> pd.DataFrame(columns<span class="op">=</span>[<span class="st">'start_time'</span>, <span class="st">'end_time'</span>, <span class="st">'location'</span>, <span class="st">'duration'</span>])</span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>    <span class="at">@classmethod</span></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> from_csv(cls, filename, dist_threshold, visit_threshold<span class="op">=</span>pd.Timedelta(<span class="st">'5 minute'</span>)):</span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> pd.read_csv(filename)</span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Remove rows with missing coordinates</span></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> data.dropna(subset<span class="op">=</span>[<span class="st">'lat_y'</span>, <span class="st">'lon_x'</span>])</span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert the datetime to a pandas datetime object</span></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a>        data[<span class="st">'datetime'</span>] <span class="op">=</span> pd.to_datetime(data[<span class="st">'datetime'</span>])</span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Sort the data by datetime</span></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a>        data <span class="op">=</span> data.sort_values(<span class="st">'datetime'</span>)</span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize the person</span></span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a>        person <span class="op">=</span> cls(user_id<span class="op">=</span>data.iloc[<span class="dv">0</span>][<span class="st">'user_id'</span>], dist_threshold<span class="op">=</span>dist_threshold)</span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Initialize the first visit with the first row</span></span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>        current_visit <span class="op">=</span> {</span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>            <span class="st">'start_time'</span>: data.iloc[<span class="dv">0</span>][<span class="st">'datetime'</span>],</span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>            <span class="st">'end_time'</span>: data.iloc[<span class="dv">0</span>][<span class="st">'datetime'</span>],</span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>            <span class="st">'location'</span>: (data.iloc[<span class="dv">0</span>][<span class="st">'lat_y'</span>], data.iloc[<span class="dv">0</span>][<span class="st">'lon_x'</span>]),</span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>            <span class="st">'points'</span>: [(data.iloc[<span class="dv">0</span>][<span class="st">'lat_y'</span>], data.iloc[<span class="dv">0</span>][<span class="st">'lon_x'</span>])]</span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Iterate over the rest of the rows</span></span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="bu">len</span>(data)):</span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a>            current_row <span class="op">=</span> data.iloc[i]</span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>            current_location <span class="op">=</span> (current_row[<span class="st">'lat_y'</span>], current_row[<span class="st">'lon_x'</span>])</span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Calculate centroid of current visit</span></span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>            lat_centroid <span class="op">=</span> <span class="bu">sum</span>(p[<span class="dv">0</span>] <span class="cf">for</span> p <span class="kw">in</span> current_visit[<span class="st">'points'</span>]) <span class="op">/</span> <span class="bu">len</span>(current_visit[<span class="st">'points'</span>])</span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a>            lon_centroid <span class="op">=</span> <span class="bu">sum</span>(p[<span class="dv">1</span>] <span class="cf">for</span> p <span class="kw">in</span> current_visit[<span class="st">'points'</span>]) <span class="op">/</span> <span class="bu">len</span>(current_visit[<span class="st">'points'</span>])</span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>            centroid <span class="op">=</span> (lat_centroid, lon_centroid)</span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>            <span class="co"># If the haversine distance to the centroid is above the threshold, it's the end of a visit</span></span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> haversine(centroid, current_location) <span class="op">&gt;</span> person.dist_threshold:</span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Update the end time of the last visit</span></span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>                current_visit[<span class="st">'end_time'</span>] <span class="op">=</span> data.iloc[i <span class="op">-</span> <span class="dv">1</span>][<span class="st">'datetime'</span>]</span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Compute the duration of the visit</span></span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>                current_visit[<span class="st">'duration'</span>] <span class="op">=</span> current_visit[<span class="st">'end_time'</span>] <span class="op">-</span> current_visit[<span class="st">'start_time'</span>]</span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a>                </span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Update the location of the visit</span></span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a>                current_visit[<span class="st">'location'</span>] <span class="op">=</span> centroid</span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Check if the visit duration is long enough to be considered a valid visit</span></span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a>                <span class="cf">if</span> current_visit[<span class="st">'duration'</span>] <span class="op">&gt;=</span> visit_threshold:</span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a>                    <span class="co"># Add the visit to the person</span></span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a>                    person.visits <span class="op">=</span> pd.concat([person.visits, pd.DataFrame([current_visit])], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Start a new visit</span></span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a>                current_visit <span class="op">=</span> {</span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'start_time'</span>: current_row[<span class="st">'datetime'</span>],</span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'end_time'</span>: current_row[<span class="st">'datetime'</span>],</span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'location'</span>: current_location,</span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a>                    <span class="st">'points'</span>: [current_location]</span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>                }</span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a>            <span class="cf">else</span>:</span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Add the current location to the points of the current visit</span></span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a>                current_visit[<span class="st">'points'</span>].append(current_location)</span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Don't forget to check and potentially add the last visit</span></span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a>        current_visit[<span class="st">'end_time'</span>] <span class="op">=</span> data.iloc[<span class="op">-</span><span class="dv">1</span>][<span class="st">'datetime'</span>]</span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a>        current_visit[<span class="st">'duration'</span>] <span class="op">=</span> current_visit[<span class="st">'end_time'</span>] <span class="op">-</span> current_visit[<span class="st">'start_time'</span>]</span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> current_visit[<span class="st">'duration'</span>] <span class="op">&gt;=</span> visit_threshold:</span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a>            person.visits <span class="op">=</span> pd.concat([person.visits, pd.DataFrame([current_visit])], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a>        <span class="co"># After all visits are processed, create the locations DataFrame</span></span>
+<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a>        person.create_locations()</span>
+<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> person</span>
+<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PointBasedUnionGroup(PointBasedEntity):</span>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.people <span class="op">=</span> []</span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.visits <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> add_person(<span class="va">self</span>, person):</span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a>        <span class="cf">assert</span> <span class="bu">isinstance</span>(person, PointBasedPerson), <span class="st">"Input person is not an instance of the PointBasedPerson class."</span></span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.people.append(person)</span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> compute_visits(<span class="va">self</span>):</span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Combine all visits from all people</span></span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.visits <span class="op">=</span> pd.concat([person.visits <span class="cf">for</span> person <span class="kw">in</span> <span class="va">self</span>.people], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the locations DataFrame</span></span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.create_locations()</span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> PointBasedIntersectGroup(PointBasedEntity):</span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.people <span class="op">=</span> []</span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.visits <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> add_person(<span class="va">self</span>, person):</span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.people.append(person)</span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> compute_visits(<span class="va">self</span>, n_min<span class="op">=</span><span class="dv">2</span>, n<span class="op">=</span><span class="va">None</span>, min_duration<span class="op">=</span>pd.Timedelta(<span class="st">'5 minutes'</span>), cluster_radius<span class="op">=</span><span class="fl">0.0025</span>):</span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Concatenate all visits from all people</span></span>
+<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a>        all_visits <span class="op">=</span> pd.concat([person.visits <span class="cf">for</span> person <span class="kw">in</span> <span class="va">self</span>.people], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-187"><a href="#cb4-187" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-188"><a href="#cb4-188" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create separate 'lat' and 'lon' columns</span></span>
+<span id="cb4-189"><a href="#cb4-189" aria-hidden="true" tabindex="-1"></a>        all_visits[[<span class="st">'lat'</span>, <span class="st">'lon'</span>]] <span class="op">=</span> pd.DataFrame(all_visits[<span class="st">'location'</span>].tolist(), index<span class="op">=</span>all_visits.index)</span>
+<span id="cb4-190"><a href="#cb4-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-191"><a href="#cb4-191" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the distance matrix</span></span>
+<span id="cb4-192"><a href="#cb4-192" aria-hidden="true" tabindex="-1"></a>        dist_matrix <span class="op">=</span> squareform(pdist(all_visits[[<span class="st">'lat'</span>, <span class="st">'lon'</span>]], metric<span class="op">=</span><span class="st">'euclidean'</span>))</span>
+<span id="cb4-193"><a href="#cb4-193" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-194"><a href="#cb4-194" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Apply DBSCAN on the distance matrix</span></span>
+<span id="cb4-195"><a href="#cb4-195" aria-hidden="true" tabindex="-1"></a>        dbscan <span class="op">=</span> DBSCAN(eps<span class="op">=</span>cluster_radius, metric<span class="op">=</span><span class="st">'precomputed'</span>, min_samples<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb4-196"><a href="#cb4-196" aria-hidden="true" tabindex="-1"></a>        labels <span class="op">=</span> dbscan.fit_predict(dist_matrix)</span>
+<span id="cb4-197"><a href="#cb4-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-198"><a href="#cb4-198" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Assign cluster labels to the visits</span></span>
+<span id="cb4-199"><a href="#cb4-199" aria-hidden="true" tabindex="-1"></a>        all_visits[<span class="st">'cluster'</span>] <span class="op">=</span> labels</span>
+<span id="cb4-200"><a href="#cb4-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-201"><a href="#cb4-201" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the centroid for each cluster and assign to each visit within the cluster</span></span>
+<span id="cb4-202"><a href="#cb4-202" aria-hidden="true" tabindex="-1"></a>        centroid_df <span class="op">=</span> all_visits.groupby(<span class="st">'cluster'</span>)[[<span class="st">'lat'</span>, <span class="st">'lon'</span>]].mean().rename(columns<span class="op">=</span>{<span class="st">'lat'</span>: <span class="st">'centroid_lat'</span>, <span class="st">'lon'</span>: <span class="st">'centroid_lon'</span>})</span>
+<span id="cb4-203"><a href="#cb4-203" aria-hidden="true" tabindex="-1"></a>        all_visits <span class="op">=</span> all_visits.join(centroid_df, on<span class="op">=</span><span class="st">'cluster'</span>)</span>
+<span id="cb4-204"><a href="#cb4-204" aria-hidden="true" tabindex="-1"></a>        all_visits[<span class="st">'location'</span>] <span class="op">=</span> <span class="bu">list</span>(<span class="bu">zip</span>(all_visits[<span class="st">'centroid_lat'</span>], all_visits[<span class="st">'centroid_lon'</span>]))</span>
+<span id="cb4-205"><a href="#cb4-205" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-206"><a href="#cb4-206" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Split each visit into one-minute intervals and assign the cluster label to the segments</span></span>
+<span id="cb4-207"><a href="#cb4-207" aria-hidden="true" tabindex="-1"></a>        intervals_df <span class="op">=</span> pd.DataFrame()</span>
+<span id="cb4-208"><a href="#cb4-208" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> _, visit <span class="kw">in</span> all_visits.iterrows():</span>
+<span id="cb4-209"><a href="#cb4-209" aria-hidden="true" tabindex="-1"></a>            time_range <span class="op">=</span> pd.date_range(start<span class="op">=</span>visit[<span class="st">'start_time'</span>], end<span class="op">=</span>visit[<span class="st">'end_time'</span>], freq<span class="op">=</span><span class="st">'T'</span>)</span>
+<span id="cb4-210"><a href="#cb4-210" aria-hidden="true" tabindex="-1"></a>            df <span class="op">=</span> pd.DataFrame({<span class="st">'time'</span>: time_range, <span class="st">'location'</span>: [visit[<span class="st">'location'</span>]]<span class="op">*</span><span class="bu">len</span>(time_range)})</span>
+<span id="cb4-211"><a href="#cb4-211" aria-hidden="true" tabindex="-1"></a>            intervals_df <span class="op">=</span> pd.concat([intervals_df, df], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-212"><a href="#cb4-212" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-213"><a href="#cb4-213" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Remove seconds from the time values</span></span>
+<span id="cb4-214"><a href="#cb4-214" aria-hidden="true" tabindex="-1"></a>        intervals_df[<span class="st">'time'</span>] <span class="op">=</span> intervals_df[<span class="st">'time'</span>].dt.floor(<span class="st">'T'</span>)</span>
+<span id="cb4-215"><a href="#cb4-215" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-216"><a href="#cb4-216" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Group by cluster and time, and count the number of occurrences</span></span>
+<span id="cb4-217"><a href="#cb4-217" aria-hidden="true" tabindex="-1"></a>        intervals_count <span class="op">=</span> intervals_df.groupby([<span class="st">'location'</span>, <span class="st">'time'</span>]).size().reset_index(name<span class="op">=</span><span class="st">'counts'</span>)</span>
+<span id="cb4-218"><a href="#cb4-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-219"><a href="#cb4-219" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Filter out the visits where the number of occurrences is less than n or n_min</span></span>
+<span id="cb4-220"><a href="#cb4-220" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> n <span class="kw">is</span> <span class="va">None</span>:</span>
+<span id="cb4-221"><a href="#cb4-221" aria-hidden="true" tabindex="-1"></a>            common_intervals <span class="op">=</span> intervals_count[intervals_count[<span class="st">'counts'</span>] <span class="op">&gt;=</span> n_min]</span>
+<span id="cb4-222"><a href="#cb4-222" aria-hidden="true" tabindex="-1"></a>        <span class="cf">else</span>:</span>
+<span id="cb4-223"><a href="#cb4-223" aria-hidden="true" tabindex="-1"></a>            common_intervals <span class="op">=</span> intervals_count[intervals_count[<span class="st">'counts'</span>] <span class="op">==</span> n]</span>
+<span id="cb4-224"><a href="#cb4-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-225"><a href="#cb4-225" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Sort by time and group by cluster, and get the start and end times of continuous time blocks</span></span>
+<span id="cb4-226"><a href="#cb4-226" aria-hidden="true" tabindex="-1"></a>        common_intervals <span class="op">=</span> common_intervals.sort_values(<span class="st">'time'</span>)</span>
+<span id="cb4-227"><a href="#cb4-227" aria-hidden="true" tabindex="-1"></a>        common_intervals[<span class="st">'block'</span>] <span class="op">=</span> (common_intervals[<span class="st">'time'</span>].diff() <span class="op">&gt;</span> pd.Timedelta(<span class="st">'1 minute'</span>)).cumsum()</span>
+<span id="cb4-228"><a href="#cb4-228" aria-hidden="true" tabindex="-1"></a>        common_visits <span class="op">=</span> common_intervals.groupby([<span class="st">'location'</span>, <span class="st">'block'</span>]).agg({<span class="st">'time'</span>: [<span class="st">'min'</span>, <span class="st">'max'</span>], <span class="st">'counts'</span>: <span class="st">'size'</span>}).reset_index()</span>
+<span id="cb4-229"><a href="#cb4-229" aria-hidden="true" tabindex="-1"></a>        common_visits.columns <span class="op">=</span> [<span class="st">'location'</span>, <span class="st">'block'</span>, <span class="st">'start_time'</span>, <span class="st">'end_time'</span>, <span class="st">'counts'</span>]</span>
+<span id="cb4-230"><a href="#cb4-230" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-231"><a href="#cb4-231" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Convert the counts of times to durations</span></span>
+<span id="cb4-232"><a href="#cb4-232" aria-hidden="true" tabindex="-1"></a>        common_visits[<span class="st">'duration'</span>] <span class="op">=</span> common_visits[<span class="st">'counts'</span>] <span class="op">*</span> pd.Timedelta(<span class="st">'1 minutes'</span>)</span>
+<span id="cb4-233"><a href="#cb4-233" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-234"><a href="#cb4-234" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Filter out the visits where the duration is less than the minimum duration</span></span>
+<span id="cb4-235"><a href="#cb4-235" aria-hidden="true" tabindex="-1"></a>        common_visits <span class="op">=</span> common_visits[common_visits[<span class="st">'duration'</span>] <span class="op">&gt;=</span> min_duration]</span>
+<span id="cb4-236"><a href="#cb4-236" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-237"><a href="#cb4-237" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Drop the unnecessary columns</span></span>
+<span id="cb4-238"><a href="#cb4-238" aria-hidden="true" tabindex="-1"></a>        common_visits <span class="op">=</span> common_visits.drop(columns<span class="op">=</span>[<span class="st">'block'</span>, <span class="st">'counts'</span>])</span>
+<span id="cb4-239"><a href="#cb4-239" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb4-240"><a href="#cb4-240" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Update the visits attribute</span></span>
+<span id="cb4-241"><a href="#cb4-241" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.visits <span class="op">=</span> common_visits</span>
+<span id="cb4-242"><a href="#cb4-242" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-243"><a href="#cb4-243" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Compute the locations DataFrame</span></span>
+<span id="cb4-244"><a href="#cb4-244" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.create_locations()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> PointBasedPerson.from_csv(<span class="ss">f'data/posmo0.csv'</span>,  dist_threshold <span class="op">=</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>p <span class="op">=</span> PointBasedPerson.from_csv(<span class="ss">f'data/posmo0.csv'</span>,  dist_threshold <span class="op">=</span> <span class="fl">0.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ug <span class="op">=</span> PointBasedUnionGroup()</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>ig <span class="op">=</span> PointBasedIntersectGroup()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>ug <span class="op">=</span> PointBasedUnionGroup()</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>ig <span class="op">=</span> PointBasedIntersectGroup()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">8</span>):</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> PointBasedPerson.from_csv(<span class="ss">f'data/posmo</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">.csv'</span>, <span class="dv">8</span>)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    ug.add_person(p)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    ig.add_person(p)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Finished loading Person </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">3</span>):</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    p <span class="op">=</span> PointBasedPerson.from_csv(<span class="ss">f'data/posmo</span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">.csv'</span>, <span class="dv">8</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    ug.add_person(p)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    ig.add_person(p)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'Finished loading Person </span><span class="sc">{</span>i<span class="sc">}</span><span class="ss">'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Finished loading Person 0</code></pre>
 </div>
@@ -489,29 +713,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="cell-output cell-output-stdout">
 <pre><code>Finished loading Person 2</code></pre>
 </div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Finished loading Person 3</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Finished loading Person 4</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Finished loading Person 5</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Finished loading Person 6</code></pre>
-</div>
-<div class="cell-output cell-output-stdout">
-<pre><code>Finished loading Person 7</code></pre>
-</div>
 </div>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>ug.compute_visits()</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>ig.compute_visits()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>ug.compute_visits()</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>ig.compute_visits()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ig.map_locations()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>ig.map_locations()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
 <div style="width:100%;"><div style="position:relative;width:100%;height:0;padding-bottom:60%;"><span style="color:#565656">Make this Notebook Trusted to load map: File -&gt; Trust Notebook</span><iframe srcdoc="<!DOCTYPE html>
 <html>
 <head>
@@ -539,7 +748,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <meta name=&quot;viewport&quot; content=&quot;width=device-width,
                 initial-scale=1.0, maximum-scale=1.0, user-scalable=no&quot; />
             <style>
-                #map_150c55b7e9839baf8c1640d88371d88a {
+                #map_cdc064821f638937a875bfb15c0d44fb {
                     position: relative;
                     width: 100.0%;
                     height: 100.0%;
@@ -554,14 +763,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <body>
     
     
-            <div class=&quot;folium-map&quot; id=&quot;map_150c55b7e9839baf8c1640d88371d88a&quot; ></div>
+            <div class=&quot;folium-map&quot; id=&quot;map_cdc064821f638937a875bfb15c0d44fb&quot; ></div>
         
 </body>
 <script>
     
     
-            var map_150c55b7e9839baf8c1640d88371d88a = L.map(
-                &quot;map_150c55b7e9839baf8c1640d88371d88a&quot;,
+            var map_cdc064821f638937a875bfb15c0d44fb = L.map(
+                &quot;map_cdc064821f638937a875bfb15c0d44fb&quot;,
                 {
                     center: [47.3666, 8.6795],
                     crs: L.CRS.EPSG3857,
@@ -575,16 +784,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
         
     
-            var tile_layer_979cdf2d8e200a9aeea74a03b517e866 = L.tileLayer(
+            var tile_layer_e0e9fb15aefd61e319a73d0a20dd7285 = L.tileLayer(
                 &quot;https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png&quot;,
                 {&quot;attribution&quot;: &quot;\u0026copy; \u003ca target=\&quot;_blank\&quot; href=\&quot;http://www.openstreetmap.org/copyright\&quot;\u003eOpenStreetMap\u003c/a\u003e contributors \u0026copy; \u003ca target=\&quot;_blank\&quot; href=\&quot;http://cartodb.com/attributions\&quot;\u003eCartoDB\u003c/a\u003e, CartoDB \u003ca target=\&quot;_blank\&quot; href =\&quot;http://cartodb.com/attributions\&quot;\u003eattributions\u003c/a\u003e&quot;, &quot;detectRetina&quot;: false, &quot;maxNativeZoom&quot;: 17, &quot;maxZoom&quot;: 17, &quot;minZoom&quot;: 0, &quot;noWrap&quot;: false, &quot;opacity&quot;: 1, &quot;subdomains&quot;: &quot;abc&quot;, &quot;tms&quot;: false}
-            ).addTo(map_150c55b7e9839baf8c1640d88371d88a);
+            ).addTo(map_cdc064821f638937a875bfb15c0d44fb);
         
     
-            var heat_map_fea6ec0ee0e3f156a0c23e42110891e6 = L.heatLayer(
-                [[47.23462851082731, 8.656164124549306, 1], [47.246452206689675, 8.636651848924663, 1]],
+            var heat_map_63c8074db2eb0c040edee3369920e1c3 = L.heatLayer(
+                [[47.246049020983435, 8.6374597763067, 1]],
                 {&quot;blur&quot;: 15, &quot;gradient&quot;: {&quot;0.0&quot;: &quot;#ffffcc&quot;, &quot;0.1&quot;: &quot;#fff1a9&quot;, &quot;0.2&quot;: &quot;#fee187&quot;, &quot;0.3&quot;: &quot;#feca66&quot;, &quot;0.4&quot;: &quot;#feab49&quot;, &quot;0.5&quot;: &quot;#fd8c3c&quot;, &quot;0.6&quot;: &quot;#fc5b2e&quot;, &quot;0.7&quot;: &quot;#ed2e21&quot;, &quot;0.8&quot;: &quot;#d41020&quot;, &quot;0.9&quot;: &quot;#b00026&quot;, &quot;1.0&quot;: &quot;#800026&quot;}, &quot;maxZoom&quot;: 18, &quot;minOpacity&quot;: 0.5, &quot;radius&quot;: 25}
-            ).addTo(map_150c55b7e9839baf8c1640d88371d88a);
+            ).addTo(map_cdc064821f638937a875bfb15c0d44fb);
         
 </script>
 </html>" style="position:absolute;width:100%;height:100%;left:0;top:0;border:none !important;" allowfullscreen="" webkitallowfullscreen="" mozallowfullscreen=""></iframe></div></div>

@@ -18,27 +18,15 @@ jupyter: python3
 ## Trying Stuff Out
 
 ```{python}
-import pandas as pd
-import matplotlib.pyplot as plt
-
-df = pd.read_csv('data/posmo0.csv')
-
-# df.plot(x='lon_x', y='lat_y')
-# plt.show()
+from raster_based_hotspots import RasterBasedPerson, RasterBasedUnionGroup, RasterBasedIntersectGroup
 ```
 
 ```{python}
-import geopandas as gpd
-
-gdf = gpd.GeoDataFrame(
-  df, geometry = gpd.points_from_xy(df.lon_x, df.lat_y)
-)
-#gdf.plot(cmap='hot')
-#plt.show()
+person = RasterBasedPerson.from_csv(f'data/posmo0.csv', 8)
 ```
 
 ```{python}
-print()
+person.map_locations()
 ```
 
 ## Abstract
@@ -75,15 +63,14 @@ The next step is to compute meeting points of multiple individuals, which we ope
 
 ## Results
 
-
 ### Raster-based
 
 <!-- the following is just a placeholder text, remove it!-->
 
-
 ### Point-based
 
 <!-- Testing if rendering of code works-->
+
 ```{python}
 import pandas as pd
 import geopandas as gpd
@@ -356,7 +343,6 @@ ig.compute_visits()
 ```{python}
 ig.map_locations()
 ```
-
 
 ## Discussion
 
