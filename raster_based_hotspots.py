@@ -5,7 +5,7 @@ from h3 import h3
 from shapely.geometry import Polygon
 import folium
 
-class Entity:
+class RasterBasedEntity:
     def __init__(self):
         self.visits = pd.DataFrame()
         self.locations = gpd.GeoDataFrame()
@@ -59,7 +59,7 @@ class Entity:
         return m
         
 
-class Person(Entity):
+class RasterBasedPerson(RasterBasedEntity):
     def __init__(self, user_id):
         super().__init__()
         self.user_id = user_id
@@ -116,7 +116,7 @@ class Person(Entity):
         return person
     
 
-class UnionGroup(Entity):
+class RasterBasedUnionGroup(RasterBasedEntity):
     def __init__(self):
         super().__init__()
         self.people = []
@@ -133,7 +133,7 @@ class UnionGroup(Entity):
         self.create_locations()
 
 
-class IntersectGroup(Entity):
+class RasterBasedIntersectGroup(RasterBasedEntity):
     def __init__(self):
         super().__init__()
         self.people = []
