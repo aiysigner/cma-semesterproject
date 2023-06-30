@@ -37,44 +37,54 @@ In this project, we compare two different methods to identify hotspots, a raster
 
 For both the raster-based and the point-based method, we first compute visits of an individual, i.e. locations that a person has spent a certain amount of time. Depending on the modeled environment, location is defined differently. For the raster-based approach, the environment is divided into individual cells, and a a visit is modeled as an individual spending a certain amount of time within a cell. On the other hand, the point-based approach uses a moving centroid to check whether a point is close enough to still be a part of that visit. In both cases, visits that fall below a given threshold time will be considered as a person being in transit, and hence not interpreted as a visit at that location.
 
-The next step is to compute meeting points of multiple individuals, which we operationalised as the union or intersection of visits. For the cell-based approach, near each other means being in the same raster cell. For the point-based approach, a buffer with a certain distance threshold is created around each visit creating a polygon for each visit. The intersection then computes any intersection of the polygons.
+The next step is to compute meeting points of multiple individuals, which we operationalised as the union or intersection of visits. For the raster-based approach, near each other means being in the same raster cell. For the point-based approach, a buffer with a certain distance threshold is created around each visit creating a polygon for each visit. The intersection then computes any intersection of the polygons.
 
 ## Results
 
 ```{python}
+# import code from .py files
 from raster_based_hotspots import RasterBasedPerson, RasterBasedUnionGroup, RasterBasedIntersectGroup
 from point_based_hotspots import PointBasedPerson, PointBasedUnionGroup, PointBasedIntersectGroup
 ```
 
 ```{python}
+# create instance and read in data of an individual for raster-and point-based approach
 raster_based_person = RasterBasedPerson.from_csv(f'data/posmo2.csv', 8)
 point_based_person = PointBasedPerson.from_csv(f'data/posmo2.csv', 0.5314)
 ```
 
 ```{python}
+# map raster locations based on how often a location was visited
 raster_based_person.map_locations(column='num_visits')
 ```
 
 ```{python}
+# heatmap of locations based on how often a location was visited
 point_based_person.map_locations(column='num_visits')
 ```
 
 ```{python}
+# instantiate the union class for the raster- and point-based approach
 raster_based_union_group = RasterBasedUnionGroup()
 point_based_union_group = PointBasedUnionGroup()
 
+# instantiate the intersection class for the raster- and point-based approach
 raster_based_intersection_group = RasterBasedIntersectGroup()
 point_based_intersection_group = PointBasedIntersectGroup()
 ```
 
 ```{python}
+# loop through all individuals 
 for i in range(9):
+    # instantiate raster- and point-based person
     raster_based_person = RasterBasedPerson.from_csv(f'data/posmo{i}.csv', 8)
     point_based_person = PointBasedPerson.from_csv(f'data/posmo{i}.csv', 0.5314)
     
+    # add the person instance to the union group
     raster_based_union_group.add_person(raster_based_person)
     point_based_union_group.add_person(point_based_person)
     
+    # add the person instance to the intersection group
     raster_based_intersection_group.add_person(raster_based_person)
     point_based_intersection_group.add_person(point_based_person)
     
@@ -82,18 +92,22 @@ for i in range(9):
 ```
 
 ```{python}
+# compute visits for union groups
 raster_based_union_group.compute_visits()
 point_based_union_group.compute_visits()
 
+# compute visits where ate least 2 people are present for intersection groups
 raster_based_intersection_group.compute_visits(n_min=2)
 point_based_intersection_group.compute_visits(n_min=2)
 ```
 
 ```{python}
+# map locations of union group from raster-based approached
 raster_based_union_group.map_locations(column='num_visits')
 ```
 
 ```{python}
+# heatmap of union group from point-based approached
 point_based_union_group.map_locations(column='num_visits')
 ```
 
@@ -104,7 +118,6 @@ raster_based_intersection_group.map_locations(column='num_visits')
 ```{python}
 point_based_intersection_group.map_locations(column='num_visits')
 ```
-
 
 ## Discussion
 
