@@ -63,7 +63,7 @@ As part of the course in the context of which this project is being conducted, p
 
 Visits are extracted from records of individual people by iterating chronologically through all data points to identify sets of points that together define a visit based on certain criteria. Beginning at the first data point, a temporary visit object is initialized for which its geographic location is determined. For subsequent data points, we then determine whether they can be attributed to this temporary visit object by using a distance criterion. Once a data point no longer meets this distance criterion, they are considered to have moved away from the visited location and the visit is therefore terminated. When a visit is terminated, we then check whether it meets the minimum duration criterion. If it does, it is considered a valid visit and is added to the person's list of visits. If the visit was too short, we assume that the person was in transit and the temporary visit object is discarded. Regardless of whether the minimum duration criterion is met, each time a temporary visit is terminated, a new one is initialized and the algorithm proceeds to the next data points.
 
-The implementation of the distance criterion differs with the data structure used. While both approaches read in the same data sets, they differ in how the data points are represented. In the raster-based approach, each data point is assigned a hexbin ID based on its coordinates, using the H3 library developed by Uber. Each hexbin ID represents a geographic hexagonal cell predefined by H3, which can vary in size depending on the specified resolution. In our implementation, we use a resolution level of 8, which corresponds to hexagons with a circumradius of 531 meters. Making the approximating assumption that the data points have a mean distance of 531 meters to all cell boundaries, we then define the distance criterion with a cell being exited. This means that the distance criterion is no longer satisfied if the hexbin ID of a following data point is different from the previous one, which then leads to the termination of the visit.
+The implementation of the distance criterion differs with the data structure used. While both approaches read in the same data sets, they differ in how the data points are represented. In the raster-based approach, each data point is assigned a hexbin ID based on its coordinates, using the H3 library developed by Uber. Each hexbin ID represents a geographic hexagonal cell predefined by H3, which can vary in size depending on the specified resolution. In our implementation, we use a resolution level of 8, which corresponds to hexagons with a circumradius of 531 meters (Uber technologies, 2023). Making the approximating assumption that the data points have a mean distance of 531 meters to all cell boundaries, we then define the distance criterion with a cell being exited. This means that the distance criterion is no longer satisfied if the hexbin ID of a following data point is different from the previous one, which then leads to the termination of the visit.
 
 In the point-based approach, on the other hand, the data points are represented as point entities carrying the original coordinates. The distance criterion then is defined by a distance calculation between the new data point and the centroid of the points associated with the temporary visit object. For comparability purposes, we use a distance threshold of 531 meters, corresponding to the circumradius of the hexagons in the raster-based approach. If the new data point has a distance less than the threshold from the visit centroid, we attribute it to the temporary visit object, which then also leads to a shift in the position of the centroid. If, on the other hand, the new data point is farther away from the visit centroid than the threshold allows, the visit is terminated and the algorithm proceeds with a next visit.
 
@@ -104,14 +104,14 @@ point_based_person = PointBasedPerson.from_csv(f'data/posmo0.csv', 0.5314)
 raster_based_person.map_locations(column='num_visits')
 ```
 
-We note that the hexagons with the highest number of visits are near Wil, SG and Zurich city, which is where X resides (home and WG). St. Gallen also has a higher number of visits which is X's workplace. The university campus Wädenswil and Irchel do not show a notably higher number of visits.
+We note that the hexagons with the highest number of visits are near Wil, SG, Zurich city, and St. Gallen. These correspond to living and work place of X. While the university campus Wädenswil and Irchel have visits, they do not show a notably high number of visits.
 
 ```{python}
 # heatmap of locations based on how often a location was visited
 point_based_person.map_locations(column='num_visits')
 ```
 
-The heat map is highly influenced by the level of scale. The further zoomed out, the larger the areas of interest become, compared to the static cell size of raster-based approach. Also, some areas only show at certain scales, but it is not consistent. Romanshorn for example is shown at small scales, then is removed, and reappears once again zoomed out even more. At a scale of 1:10km, the areas NW of Weinfelden, NE of Wil and Romanshorn show a higher density, which was not the case in the raster-based method. Wil and Zurich have a higher density all scales, while St. Gallen is displayed at all scales, but is not distinguishable from other locations with few visits.
+The heat map is highly influenced by the level of scale. The further zoomed out, the larger the areas of interest become, compared to the static cell size of raster-based approach. Also, some areas only show at certain scales, but it is not consistent. Romanshorn for example is shown at small scales, then is removed, and reappears once again zoomed out even more. At a scale of 1:5km, the areas NW of Weinfelden, NE of Wil and Romanshorn display a higher density, which was not the case in the raster-based method. Wil and Zurich have a higher density all scales, while St. Gallen is displayed at all scales, but is not distinguishable from other locations with few visits.
 
 ```{python}
 # instantiate the union class for the raster- and point-based approach
@@ -211,19 +211,61 @@ def create_histogram(df, column_name):
         plt.xlabel(f'{column_name.capitalize()}')
 ```
 
+```{python}
+# visualize distribution of duration of visits for raster-based method
+create_histogram(raster_based_person.visits, 'duration')
+```
+
+```{python}
+# visualize distribution of duration of visits for point-based method
+create_histogram(point_based_person.visits, 'duration')
+```
+
+For individual X, both methods display a skewed histogram, with a high frequency of short length visits.
+
+```{python}
+# visualize distribution of number of visits for raster-based method
+create_histogram(raster_based_person.locations, 'num_visits')
+```
+
+```{python}
+# visualize distribution of number of visits for point-based method
+create_histogram(point_based_person.locations, 'num_visits')
+```
+
+The raster-based has several more locations with relatively high number of visits, but in general they show the same exponential decreasing trend.
+
+
+```{python}
+# visualize distribution of average duration of intersection meetings
+create_histogram(ig.locations, 'avg_time')
+```
+
+```{python}
+# visualize distribution of average duration of interesection meetings
+create_histogram(ig.locations, 'avg_time')
+```
+
+The average time spent at a location for the intersection differes much more, with values between 0 and 24hours for the raster-based method, and up to 4 days for the point-based method. 
+
 ## Discussion
 
-In general, both methods capture similar main areas of interest. At an individual level, the residentia and work area can be identified, while the union and intersections clearly identify the location of the university campuses.
+The comparison between the raster-based and point-based methods reveals certain characteristics and considerations for each approach. With the hexagon zoom level 8 or search radius of 531 in the point-based method, we found that both methods capture similar visit locations, such as places of residence, work, and study.
 
-The raster-based method provides a straightforward and easily interpretable spatial representation of visits / meeting areas. Comparisons between raster maps is easier, as the constant cell size, regardless of zoom level, ensures consistent results. The cell-size does limit preciseness of visit locations, but it serves as an instrument for obfuscation, since exact location of the visit is not displayed.
+The raster-based method provides a straightforward and easily interpretable spatial representation of visits and meting areas. The use of raster maps allows for simpler comparisons between different maps and ensures 'reliable' results, as the cell size remains constant regardless of the zoom level. However, imposes limitations on the precision of visit locations as the location of the visit or meeting point could be anywhere within the cell. This ambiguity that serves as a privacy mechanism by obfuscating the exact location
+
+On the other hand, the point-based method employs a weighted kernel density estimate, generating a smooth and continuous surface map that enables flexible spatial representation. Furthermore, this approach captures more fine-grained details than the raster-based method when using the equivalent search radius. This inturn is coupled with a privacy issue, since locations are directly derived from the GPS locations. Under the assumption that the GPS data from Posmo is accurate, it would be possible to accurately determine a precise location of a visit, where it not for the maximum zoom level. Lastly, the scale-dependency of the results the results (aside from defined search radius) complicate the interpretation of the results.
+
+For the most part, the histograms show that the two methods return similar results. However, there is a large difference in average time spent at an intersection. It is Zurich city that has an average visit duration of almost 4 days for 13 visits, which is unlikely for. This is likely a sign that the bandwidth is too large for the point-based method.
+
+It is important to acknowledge that the parameters chosen for the method comparison were determined without specific literary references. We only compared the methods at a scale of zoom level 8 for hexagons, the equivalent of a 531m search radius. To address the Modifiable Areal Unit Problem (MAUP), further analysis should be conducted at different scales to explore the impact on the results. Additionally, conducting a Moran's I analysis would provide insights into the optimal bandwidth for clustering visits, indicating the strongest hot spot spatial analysis (Hot Spot Spatial Analysis, 2022).
+
 
 ## Literature
+Hot Spot Spatial Analysis (2022). Columbia Mailman School of Public Health. https://www.publichealth.columbia.edu/research/population-health-methods/hot-spot-spatial-analysis
 
 Jones, K., Patel, N., Levy, M. et al. (2008). Global trends in emerging infectious diseases. Nature 451, 990--993.
 
 Kucukpehlivan, T., Cetin, M., Aksoy, T., Senyel Kurkcuoglu, M. A., Cabuk, S. N., Isik Pekkan, O., Dabanli, A., & Cabuk, A. (2023). Determination of the impacts of urban-planning of the urban land area using GIS hotspot analysis. Computers and Electronics in Agriculture, 210, 107935.
 
-```{Python}
-#devtools::install_github("benmarwick/wordcountaddin",  type = "source", dependencies = TRUE)
-wordcountaddin:::text_stats()
-```
+Uber Technologies, Inc. (2023). Tables of Cell Statistics Across Resolutions: Edge lengths. https://h3geo.org/docs/core-library/restable/#edge-lengths
