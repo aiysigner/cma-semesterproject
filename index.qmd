@@ -60,7 +60,7 @@ point_based_person = PointBasedPerson.from_csv(f'data/posmo0.csv', 0.5314)
 raster_based_person.map_locations(column='num_visits')
 ```
 
-We note that the hexagons with the highest number of visits are near Wil, SG and Zurich Zentrum, which is where X resides (home and WG). St. Gallen also has a higher number of visits which is X's workplace. The university campus Wädenswil and Irchel do not show a notably higher number of visits.
+We note that the hexagons with the highest number of visits are near Wil, SG and Zurich city, which is where X resides (home and WG). St. Gallen also has a higher number of visits which is X's workplace. The university campus Wädenswil and Irchel do not show a notably higher number of visits.
 
 ```{python}
 # heatmap of locations based on how often a location was visited
@@ -69,7 +69,6 @@ point_based_person.map_locations(column='num_visits')
 
 The heat map is highly influenced by the level of scale. The further zoomed out, the larger the areas of interest become, compared to the static cell size of raster-based approach. Also, some areas only show at certain scales, but it is not consistent. Romanshorn for example is shown at small scales, then is removed, and reappears once again zoomed out even more. 
 At a scale of 1:10km, the areas NW of Weinfelden, NE of Wil and Romanshorn show a higher density, which was not the case in the raster-based method. Wil and Zurich have a higher density all scales, while St. Gallen is displayed at all scales, but is not distinguishable from other locations with few visits. 
- 
 
 ```{python}
 # instantiate the union class for the raster- and point-based approach
@@ -114,27 +113,68 @@ point_based_intersection_group.compute_visits(n_min=2)
 raster_based_union_group.map_locations(column='num_visits')
 ```
 
-The Wädenswil Campus has the highest number of visits (dark red), followed by Zurich Center, Irchel Campus and Kilchberg, and Wiesendangen (red). The orange cells are individually spread all throughout, likely indicating places of residence for an individual.
+The Wädenswil Campus has the highest number of visits (dark red), followed by Zurich city, Irchel Campus and Kilchberg, and Wiesendangen (red). The orange cells are individually spread all throughout, likely indicating places of residence for an individual.
 
 ```{python}
 # heatmap of union group from point-based approached
 point_based_union_group.map_locations(column='num_visits')
 ```
 
-In the heatmap, Zurich Center and Wädenswil are the most visited locations. There is also a rather high density north of the Zürichsee between Meilen, Rapperswil and Wetzikon.
+Zurich city and Wädenswil are the most visited locations in the union heatmap. There is also a rather high density north of the Zürichsee between Meilen, Rapperswil and Wetzikon.
 
+The location of the visits matches between both methods except in Richterswil. While the raster-based method has cells between Wädenswil and Richterswil, only the Campus Wädenswil is depicted with a higher density in the union heatmap. 
 ```{python}
 raster_based_intersection_group.map_locations(column='num_visits')
 ```
 
-Wädenswil Campus has the most visits, followed by Wollishofen, Kilchberg. The Irchel Campus is the next most visited cell, then followed by Zurich Center. 
+Wädenswil Campus has the most intersection, followed by Wollishofen, Kilchberg. The Irchel Campus has the second highest number of intersection, followed by Zurich Center.
+
 ```{python}
 point_based_intersection_group.map_locations(column='num_visits')
 ```
 
+Zurich city shows by far the highest density of visits. The area around Wollishofen and Wädenswil Campus also show a high number of intersection compared to the the remaining intersection areas. Compared to the raster-based method, the areas of intersection are smaller in the point-based method than the raster-based. For example, Zurich city only has 1 area of intersection the point-based method, but consists of 6 hexagons in the raster-based method.  
+
+In general, both methods show the same intersection areas, except for Richterswil, which is not displayed in the point-based intersection.
+
+```{python}
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Function to create histogram based on dataframe (visits or locations)
+def create_histogram(df, column_name):
+    df_copy = df.copy()
+    plt.title(f'Histogram of {column_name.capitalize()}')
+    
+    # to plot how many points are in a visit for point-based method
+    if column_name == 'points':
+        df_copy['points_length'] = df_copy[column_name].apply(len)
+        sns.histplot(data=df_copy, x='points_length')
+        plt.title('Histogram of Points Length')
+        plt.xlabel('Number of Points')
+        
+    # to plot time differences such as duration and average time 
+    # converts ns to hours to facilitate interpretation
+    elif df_copy[column_name].dtype == 'timedelta64[ns]':
+        df_copy['duration_hours'] = df_copy[column_name] / pd.Timedelta(minutes=60)
+        sns.histplot(data=df_copy, x='duration_hours')
+        plt.xlabel(f'{column_name.capitalize()} in Hours')
+    
+    # to plot numerical columns such as number of visits    
+    else:
+        sns.histplot(data=df_copy, x=column_name)
+        plt.xlabel(f'{column_name.capitalize()}')
+```
+
+
 ## Discussion
 
-<!-- the following is just a placeholder text, remove it!-->
+In general, both methods capture similar main areas of interest. At an individual level, the residentia and work area can be identified, while the union and intersections clearly identify the location of the university campuses.
+
+The raster-based method provides a straightforward and easily interpretable spatial representation of visits / meeting areas. Comparisons between raster maps is easier, as the constant cell size, regardless of zoom level, ensures consistent results. The cell-size does limit preciseness of visit locations, but it serves as an instrument for obfuscation, since exact location of the visit is not displayed.
+
+
 
 ## Literature
 
