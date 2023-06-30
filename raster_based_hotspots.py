@@ -69,6 +69,9 @@ class RasterBasedPerson(RasterBasedEntity):
     def from_csv(cls, filename, hex_resolution, visit_threshold=pd.Timedelta('10 minute')):
         data = pd.read_csv(filename)
 
+        # Remove rows with missing coordinates
+        data = data.dropna(subset=['lat_y', 'lon_x'])
+
         # Convert the datetime to a pandas datetime object
         data['datetime'] = pd.to_datetime(data['datetime'])
         
