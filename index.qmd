@@ -47,6 +47,8 @@ from raster_based_hotspots import RasterBasedPerson, RasterBasedUnionGroup, Rast
 from point_based_hotspots import PointBasedPerson, PointBasedUnionGroup, PointBasedIntersectGroup
 ```
 
+We will show an example visualizing the results with the data from one of the authors, which we will refer to as X.
+
 ```{python}
 # create instance and read in data of an individual for raster-and point-based approach
 raster_based_person = RasterBasedPerson.from_csv(f'data/posmo0.csv', 8)
@@ -58,10 +60,16 @@ point_based_person = PointBasedPerson.from_csv(f'data/posmo0.csv', 0.5314)
 raster_based_person.map_locations(column='num_visits')
 ```
 
+We note that the hexagons with the highest number of visits are near Wil, SG and Zurich Zentrum, which is where X resides (home and WG). St. Gallen also has a higher number of visits which is X's workplace. The university campus Wädenswil and Irchel do not show a notably higher number of visits.
+
 ```{python}
 # heatmap of locations based on how often a location was visited
 point_based_person.map_locations(column='num_visits')
 ```
+
+The heat map is highly influenced by the level of scale. The further zoomed out, the larger the areas of interest become, compared to the static cell size of raster-based approach. Also, some areas only show at certain scales, but it is not consistent. Romanshorn for example is shown at small scales, then is removed, and reappears once again zoomed out even more. 
+At a scale of 1:10km, the areas NW of Weinfelden, NE of Wil and Romanshorn show a higher density, which was not the case in the raster-based method. Wil and Zurich have a higher density all scales, while St. Gallen is displayed at all scales, but is not distinguishable from other locations with few visits. 
+ 
 
 ```{python}
 # instantiate the union class for the raster- and point-based approach
@@ -106,15 +114,20 @@ point_based_intersection_group.compute_visits(n_min=2)
 raster_based_union_group.map_locations(column='num_visits')
 ```
 
+The Wädenswil Campus has the highest number of visits (dark red), followed by Zurich Center, Irchel Campus and Kilchberg, and Wiesendangen (red). The orange cells are individually spread all throughout, likely indicating places of residence for an individual.
+
 ```{python}
 # heatmap of union group from point-based approached
 point_based_union_group.map_locations(column='num_visits')
 ```
 
+In the heatmap, Zurich Center and Wädenswil are the most visited locations. There is also a rather high density north of the Zürichsee between Meilen, Rapperswil and Wetzikon.
+
 ```{python}
 raster_based_intersection_group.map_locations(column='num_visits')
 ```
 
+Wädenswil Campus has the most visits, followed by Wollishofen, Kilchberg. The Irchel Campus is the next most visited cell, then followed by Zurich Center. 
 ```{python}
 point_based_intersection_group.map_locations(column='num_visits')
 ```
