@@ -33,11 +33,55 @@ In this project, we compare two different methods to identify hotspots, a raster
 
 ## Methods
 
-<!-- Maybe we can also remove this, since it is partly already described in the introduction!-->
+In this section, we present a method for identifying locations that have been visited by individuals or groups of individuals. To this end, in a first step we address the extraction of these locations from geotracking data of individual persons. In a second step, we combine data from multiple individuals in such a way that we can learn more about the collective behaviour of a group of people using Boolean operations. This entails, for one, the union and, for another, the intersection of the visits made by the individuals. What these Boolean operations mean in the context of our project, we will explain in more detail later.
 
-For both the raster-based and the point-based method, we first compute visits of an individual, i.e. locations that a person has spent a certain amount of time. Depending on the modeled environment, location is defined differently. For the raster-based approach, the environment is divided into individual cells, and a a visit is modeled as an individual spending a certain amount of time within a cell. On the other hand, the point-based approach uses a moving centroid to check whether a point is close enough to still be a part of that visit. In both cases, visits that fall below a given threshold time will be considered as a person being in transit, and hence not interpreted as a visit at that location.
+The choice of data structure in our methodology could potentially influence the results in a significant way. A raster-based approach is simpler to implement but is susceptible to the Modifiable Areal Unit Problem (MAUP) and thus can lead to statistical bias in the results. A point-based approach, on the other hand, can potentially lead to geographically very accurate results, which in turn amplifies data privacy concerns. To investigate the role of data structure choice in our methodology, both approaches were implemented in the form of two separate Python modules.
 
-The next step is to compute meeting points of multiple individuals, which we operationalised as the union or intersection of visits. For the raster-based approach, near each other means being in the same raster cell. For the point-based approach, a buffer with a certain distance threshold is created around each visit creating a polygon for each visit. The intersection then computes any intersection of the polygons.
+### Definitions
+
+Before we explain the functioning of our method, we need to define some terms that are relevant to it.
+
+#### Visit
+
+A visit is an event during which a person remains stationary for a minimum amount of time. Because a person will make minor movements during a visit, such as going to the bathroom or taking a walk in the garden, a radius must be defined in which the person is allowed to move during a visit without it being considered the end of the visit. Depending on this radius, we must also specify the minimum duration of the visit. For a larger radius, a larger minimum duration must be defined, otherwise slow movements in transit may get classified as visits. For our implementation, we determined a radius of approximately half a kilometre along with a minimum duration of 10 minutes. In comparison, a person traveling at a walking speed of 5 kilometres per hour away from the visit location would have a minimum of 6 minutes if walking in a straight line or a maximum of 8.5 minutes if moving around blocks.
+
+#### Location
+
+A location is a geographical entity at which visits can occur. A person can visit a location any number of times, which allows different statistics to be calculated for the location, such as number of visits, average visit time, or total visit time.
+
+#### Boolean Operations
+
+When speaking of Boolean operations in the context of our project, we refer to operations on individual sets of visits performed by people. By union we then understand the combining of visits made by different individuals into a new set of collective visits. This gives us a collection of visits made by all members of a group, regardless of whether they were made alone or in company. For the intersection, on the other hand, we identify the visits in which a minimum number of members of the group participate. This means that the visits of the individuals participating in an intersection visit must have the same location and temporally overlap for a minimum duration.
+
+### Implementation
+
+#### Data
+
+As part of the course in the context of which this project is being conducted, participants tracked their position over a period of two to three months using the Posmo Project app. The app records the trajectories of the tracked individuals as a list of time-stamped coordinates, usually at 10-second intervals. In addition to date, time and coordinates, the app also tries to assign a placename and the means of transport used to each data point, which is, however, not relevant to our project.
+
+#### Extracting Visits
+
+Visits are extracted from records of individual people by iterating chronologically through all data points to identify sets of points that together define a visit based on certain criteria. Beginning at the first data point, a temporary visit object is initialized for which its geographic location is determined. For subsequent data points, we then determine whether they can be attributed to this temporary visit object by using a distance criterion. Once a data point no longer meets this distance criterion, they are considered to have moved away from the visited location and the visit is therefore terminated. When a visit is terminated, we then check whether it meets the minimum duration criterion. If it does, it is considered a valid visit and is added to the person's list of visits. If the visit was too short, we assume that the person was in transit and the temporary visit object is discarded. Regardless of whether the minimum duration criterion is met, each time a temporary visit is terminated, a new one is initialized and the algorithm proceeds to the next data points.
+
+The implementation of the distance criterion differs with the data structure used. While both approaches read in the same data sets, they differ in how the data points are represented. In the raster-based approach, each data point is assigned a hexbin ID based on its coordinates, using the H3 library developed by Uber. Each hexbin ID represents a geographic hexagonal cell predefined by H3, which can vary in size depending on the specified resolution. In our implementation, we use a resolution level of 8, which corresponds to hexagons with a circumradius of 531 meters. Making the approximating assumption that the data points have a mean distance of 531 meters to all cell boundaries, we then define the distance criterion with a cell being exited. This means that the distance criterion is no longer satisfied if the hexbin ID of a following data point is different from the previous one, which then leads to the termination of the visit.
+
+In the point-based approach, on the other hand, the data points are represented as point entities carrying the original coordinates. The distance criterion then is defined by a distance calculation between the new data point and the centroid of the points associated with the temporary visit object. For comparability purposes, we use a distance threshold of 531 meters, corresponding to the circumradius of the hexagons in the raster-based approach. If the new data point has a distance less than the threshold from the visit centroid, we attribute it to the temporary visit object, which then also leads to a shift in the position of the centroid. If, on the other hand, the new data point is farther away from the visit centroid than the threshold allows, the visit is terminated and the algorithm proceeds with a next visit.
+
+#### Defining Locations
+
+As people may visit a location more than once, we can calculate visit statistics for these locations, like for example the number of visits, the average visit duration or the total visit duration. To do this, we need to group the visits by their locations and then calculate the statistics based on these groupings. In the raster-based approach, this is relatively simple. Because the visits have already been assigned to geographic units as a result of the rasterization into hexagons, the visits can simply be grouped using their hexbin ID.
+
+With the point-based approach, it is a bit more complex. Here, the visits each have a location in the form of a point entity created by taking the centroid of the data points associated with the visit. Thus, the likelihood that visits will differ slightly in their point coordinates, even though they may refer to the same location, is very high. Therefore, in order to group visits with similar coordinates, DBSCAN clustering is performed with a maximum distance parameter between two visits of 531 meters and a minimum sample number of 1 visit per cluster. This results in each visit being assigned a cluster ID, by which the visits can then be grouped. The visits in a cluster then form a unique location whose coordinates are defined by the centroid of the coordinates of the visits in the cluster. The statistics mentioned above can then be calculated for these locations created from visit clusters.
+
+#### Boolean Operations
+
+To perform Boolean operations between multiple people, corresponding group objects are created to which individuals can be added. The union then simply concatenates the visits of the individual people. Using this new collection of visits, the locations and their statistics can then be calculated in the same way as for individual persons.
+
+The intersection requires a more complex algorithm. We now want to specifically identify visits in which a minimum number of members of the group participated. That means that several people must each have made a visit to the same place, which, additionally, overlap in time. Because participants in a common visit may have different arrival and departure times, we cannot simply compare the visits, but instead must examine how they temporally overlap. To accomplish this, we divide the individual's visits into 1-minute segments and round them to the last full minute. This allows us to assign a location to each minute that an individual was on a visit. We then group these visit minute segments of all members of a group by location and time and then count the number of segments in each minute for every location. That way we then obtain counts of the number of people present for each pair of location and time. Based on these counts, we can then identify visits where a minimum number of people were together for a minimum amount of time. In the same way as before, we can then use these newly defined visits to calculate the locations and their statistics.
+
+#### Visualizing Locations
+
+To visualize the visit locations of individuals or groups of individuals, the locations can be mapped by using the three statistics mentioned above. For the raster-based approach, we create and map hexagon polygons that correspond to the geographic extent of the H3 hexbins and colour them according to the statistical attribute. In the point-based approach, locations are in the form of point entities. We thus visualize them using a heat map with the statistical attribute used to weight the locations. Because the radius and blur of the heatmap change depending on the zoom level, a maximum zoom level was specified with the goal of obfuscating the locations and preserving the privacy of the participants as much as possible.
 
 ## Results
 
@@ -67,8 +111,7 @@ We note that the hexagons with the highest number of visits are near Wil, SG and
 point_based_person.map_locations(column='num_visits')
 ```
 
-The heat map is highly influenced by the level of scale. The further zoomed out, the larger the areas of interest become, compared to the static cell size of raster-based approach. Also, some areas only show at certain scales, but it is not consistent. Romanshorn for example is shown at small scales, then is removed, and reappears once again zoomed out even more. 
-At a scale of 1:10km, the areas NW of Weinfelden, NE of Wil and Romanshorn show a higher density, which was not the case in the raster-based method. Wil and Zurich have a higher density all scales, while St. Gallen is displayed at all scales, but is not distinguishable from other locations with few visits. 
+The heat map is highly influenced by the level of scale. The further zoomed out, the larger the areas of interest become, compared to the static cell size of raster-based approach. Also, some areas only show at certain scales, but it is not consistent. Romanshorn for example is shown at small scales, then is removed, and reappears once again zoomed out even more. At a scale of 1:10km, the areas NW of Weinfelden, NE of Wil and Romanshorn show a higher density, which was not the case in the raster-based method. Wil and Zurich have a higher density all scales, while St. Gallen is displayed at all scales, but is not distinguishable from other locations with few visits.
 
 ```{python}
 # instantiate the union class for the raster- and point-based approach
@@ -122,7 +165,8 @@ point_based_union_group.map_locations(column='num_visits')
 
 Zurich city and Wädenswil are the most visited locations in the union heatmap. There is also a rather high density north of the Zürichsee between Meilen, Rapperswil and Wetzikon.
 
-The location of the visits matches between both methods except in Richterswil. While the raster-based method has cells between Wädenswil and Richterswil, only the Campus Wädenswil is depicted with a higher density in the union heatmap. 
+The location of the visits matches between both methods except in Richterswil. While the raster-based method has cells between Wädenswil and Richterswil, only the Campus Wädenswil is depicted with a higher density in the union heatmap.
+
 ```{python}
 raster_based_intersection_group.map_locations(column='num_visits')
 ```
@@ -133,7 +177,7 @@ Wädenswil Campus has the most intersection, followed by Wollishofen, Kilchberg.
 point_based_intersection_group.map_locations(column='num_visits')
 ```
 
-Zurich city shows by far the highest density of visits. The area around Wollishofen and Wädenswil Campus also show a high number of intersection compared to the the remaining intersection areas. Compared to the raster-based method, the areas of intersection are smaller in the point-based method than the raster-based. For example, Zurich city only has 1 area of intersection the point-based method, but consists of 6 hexagons in the raster-based method.  
+Zurich city shows by far the highest density of visits. The area around Wollishofen and Wädenswil Campus also show a high number of intersection compared to the the remaining intersection areas. Compared to the raster-based method, the areas of intersection are smaller in the point-based method than the raster-based. For example, Zurich city only has 1 area of intersection the point-based method, but consists of 6 hexagons in the raster-based method.
 
 In general, both methods show the same intersection areas, except for Richterswil, which is not displayed in the point-based intersection.
 
@@ -167,14 +211,11 @@ def create_histogram(df, column_name):
         plt.xlabel(f'{column_name.capitalize()}')
 ```
 
-
 ## Discussion
 
 In general, both methods capture similar main areas of interest. At an individual level, the residentia and work area can be identified, while the union and intersections clearly identify the location of the university campuses.
 
 The raster-based method provides a straightforward and easily interpretable spatial representation of visits / meeting areas. Comparisons between raster maps is easier, as the constant cell size, regardless of zoom level, ensures consistent results. The cell-size does limit preciseness of visit locations, but it serves as an instrument for obfuscation, since exact location of the visit is not displayed.
-
-
 
 ## Literature
 
