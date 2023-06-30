@@ -49,8 +49,8 @@ from point_based_hotspots import PointBasedPerson, PointBasedUnionGroup, PointBa
 
 ```{python}
 # create instance and read in data of an individual for raster-and point-based approach
-raster_based_person = RasterBasedPerson.from_csv(f'data/posmo2.csv', 8)
-point_based_person = PointBasedPerson.from_csv(f'data/posmo2.csv', 0.5314)
+raster_based_person = RasterBasedPerson.from_csv(f'data/posmo0.csv', 8)
+point_based_person = PointBasedPerson.from_csv(f'data/posmo0.csv', 0.5314)
 ```
 
 ```{python}
@@ -75,7 +75,7 @@ point_based_intersection_group = PointBasedIntersectGroup()
 
 ```{python}
 # loop through all individuals 
-for i in range(9):
+for i in range(16):
     # instantiate raster- and point-based person
     raster_based_person = RasterBasedPerson.from_csv(f'data/posmo{i}.csv', 8)
     point_based_person = PointBasedPerson.from_csv(f'data/posmo{i}.csv', 0.5314)
