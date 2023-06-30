@@ -52,7 +52,7 @@ class PointBasedEntity:
         map_center = [47.3666, 8.6795]  # [self.locations.geometry.centroid.y.mean(), self.locations.geometry.centroid.x.mean()]
 
         # Create a folium Map
-        m = folium.Map(location=map_center, zoom_start=11, max_zoom=13, tiles='cartodbpositron')
+        m = folium.Map(location=map_center, zoom_start=11, max_zoom=13, tiles='cartodbpositron', control_scale=True)
 
         # If column is avg_time or total_time, convert it to seconds for normalization
         if column == 'avg_time' or column == 'total_time':
