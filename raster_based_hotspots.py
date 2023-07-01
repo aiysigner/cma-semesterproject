@@ -6,11 +6,34 @@ from shapely.geometry import Polygon
 import folium
 
 class RasterBasedEntity:
+    """
+    A base class for raster-based entities.
+
+    This class is used to implement common functionalities shared between raster-based
+    entities such as people and groups of people.
+    
+    Attributes:
+        visits (pd.DataFrame): A DataFrame to hold the visit data.
+        locations (gpd.GeoDataFrame): A GeoDataFrame to hold the location data.
+    """
+
     def __init__(self):
+        """
+        Initializes the RasterBasedEntity with empty visits and locations dataframes.
+        """
+
         self.visits = pd.DataFrame()
         self.locations = gpd.GeoDataFrame()
 
     def create_locations(self):
+        """
+        Creates the locations dataframe.
+
+        This method groups the visits by location and computes several statistics for each 
+        location such as the number of visits, average visit duration, and total visit duration. 
+        It also computes the polygon geometries for each location based on the hexbin IDs using the H3 library.
+        """
+
         # Group the visits by location
         locations = self.visits.groupby('location')
 
@@ -33,11 +56,25 @@ class RasterBasedEntity:
         self.locations = gpd.GeoDataFrame(self.locations, geometry='geometry')
 
     def map_locations(self, column='num_visits'):
-        # Initialize the map at the center of all locations (of person 0)
-        map_center = [47.408675, 8.833210]
+        """
+        Creates a folium Map object with locations visualized as polygons of hexagons.
+
+        This method creates a folium Map object and adds a Polygon layer to it for each location, 
+        where the fill color of the polygon corresponds to the value of the specified column for that location.
+
+        Args:
+            column (str, optional): The name of the column in the locations dataframe to use for coloring the polygons. 
+                                    Defaults to 'num_visits'.
+
+        Returns:
+            folium.Map: The created folium Map object.
+        """
+
+        # Initialize the map at the center of the Canton of Zürich
+        map_center = [47.412724, 8.655083]
         
         # Create a folium Map
-        m = folium.Map(location=map_center, zoom_start=11, max_zoom=13, tiles='cartodbpositron', control_scale=True)
+        m = folium.Map(location=map_center, zoom_start=10, max_zoom=13, tiles='cartodbpositron', control_scale=True)
         
         # If column is avg_time, convert it to seconds for normalization
         if column == 'avg_time' or column == 'total_time':
@@ -60,13 +97,47 @@ class RasterBasedEntity:
         
 
 class RasterBasedPerson(RasterBasedEntity):
+    """
+    A class that represents a raster-based person.
+
+    This class is used to represent a person in a raster-based framework. It inherits from the
+    RasterBasedEntity base class.
+
+    Attributes:
+        user_id (str): The ID of the person.
+        visits (pd.DataFrame): A DataFrame to hold the visit data.
+        locations (gpd.GeoDataFrame): A GeoDataFrame to hold the location data.
+    """
+
     def __init__(self, user_id):
+        """
+        Initializes the RasterBasedPerson with the specified user ID and an empty visits dataframe.
+
+        Args:
+            user_id (str): The ID of the person.
+        """
+
         super().__init__()
         self.user_id = user_id
         self.visits = pd.DataFrame(columns=['start_time', 'end_time', 'location', 'duration'])
 
     @classmethod
     def from_csv(cls, filename, hex_resolution, visit_threshold=pd.Timedelta('10 minute')):
+        """
+        Creates a RasterBasedPerson object from a CSV file.
+
+        This method reads geotracking data from a CSV file, identifies separate visits, and creates a RasterBasedPerson object.
+
+        Args:
+            filename (str): The name of the CSV file to read the data from.
+            hex_resolution (int): The H3 hexagon resolution to use for rasterizing the locations.
+            visit_threshold (pd.Timedelta, optional): The minimum duration of a visit to be considered valid. 
+                                                      Defaults to pd.Timedelta('10 minute').
+
+        Returns:
+            RasterBasedPerson: A RasterBasedPerson object with the identified visits.
+        """
+
         data = pd.read_csv(filename)
 
         # Remove rows with missing coordinates
@@ -120,15 +191,51 @@ class RasterBasedPerson(RasterBasedEntity):
     
 
 class RasterBasedUnionGroup(RasterBasedEntity):
+    """
+    A class representing a group of raster-based people.
+
+    This class is used to represent a group of people in a raster-based framework. The group is created 
+    through the union of individuals, aggregating the visit data of all its members. It inherits from the 
+    RasterBasedEntity base class.
+
+    Attributes:
+        people (list): A list of RasterBasedPerson objects.
+        visits (pd.DataFrame): A DataFrame to hold the visit data.
+        locations (gpd.GeoDataFrame): A GeoDataFrame to hold the location data.
+    """
+
     def __init__(self):
+        """
+        Initializes the RasterBasedUnionGroup with an empty list of people and an empty visits dataframe.
+        """
+
         super().__init__()
         self.people = []
         self.visits = pd.DataFrame()
 
     def add_person(self, person):
+        """
+        Adds a person to the group.
+
+        This method adds a RasterBasedPerson object to the group's list of people.
+
+        Args:
+            person (RasterBasedPerson): The person to be added.
+
+        Raises:
+            AssertionError: If the input person is not an instance of the RasterBasedPerson class.
+        """
+
+        assert isinstance(person, RasterBasedPerson), "Input person is not an instance of the RasterBasedPerson class."
         self.people.append(person)
 
     def compute_visits(self):
+        """
+        Computes the visit data for the group.
+
+        This method concatenates the visit data of all people in the group and computes the locations dataframe.
+        """
+
         # Combine all visits from all people
         self.visits = pd.concat([person.visits for person in self.people], ignore_index=True)
 
@@ -137,15 +244,57 @@ class RasterBasedUnionGroup(RasterBasedEntity):
 
 
 class RasterBasedIntersectGroup(RasterBasedEntity):
+    """
+    A class representing a group of raster-based people intersected by shared visits.
+
+    This class is used to represent a group of people in a raster-based framework where the group's visits 
+    represent the intersection of visits made by all group members. It inherits from the RasterBasedEntity base class.
+
+    Attributes:
+        people (list): A list of RasterBasedPerson objects.
+        visits (pd.DataFrame): A DataFrame to hold the visit data.
+        locations (gpd.GeoDataFrame): A GeoDataFrame to hold the location data.
+    """
+
     def __init__(self):
+        """
+        Initializes the RasterBasedIntersectGroup with an empty list of people and an empty visits dataframe.
+        """
+
         super().__init__()
         self.people = []
         self.visits = pd.DataFrame()
 
     def add_person(self, person):
+        """
+        Adds a person to the group.
+
+        This method adds a RasterBasedPerson object to the group's list of people.
+
+        Args:
+            person (RasterBasedPerson): The person to be added.
+
+        Raises:
+            AssertionError: If the input person is not an instance of the RasterBasedPerson class.
+        """
+
+        assert isinstance(person, RasterBasedPerson), "Input person is not an instance of the RasterBasedPerson class."
         self.people.append(person)
 
     def compute_visits(self, n_min=2, n=None, min_duration=pd.Timedelta('5 minutes')):
+        """
+        Computes the intersected visit data for the group.
+
+        This method computes the intersected visit data for the group, which represent the visits made by all group 
+        members that are common among at least `n_min` number of members and that last for at least `min_duration`.
+
+        Args:
+            n_min (int): The minimum number of members that need to have made a visit for it to be considered common.
+            n (int, optional): The exact number of members that need to have made a visit for it to be considered common. 
+                               If not provided, any visit made by at least `n_min` number of members is considered common.
+            min_duration (pd.Timedelta): The minimum duration a visit must last for it to be considered valid.
+        """
+
         # Split each visit into one-minute intervals
         intervals_df = pd.DataFrame()
         for person in self.people:

@@ -10,11 +10,39 @@ import folium
 import folium.plugins
 
 class PointBasedEntity:
+    """
+    A base class for point-based entities.
+
+    This class is used to implement common functionalities shared between point-based
+    entities such as people and groups of people.
+
+    Attributes:
+        visits (pd.DataFrame): A DataFrame to hold the visit data.
+        locations (gpd.GeoDataFrame): A GeoDataFrame to hold the location data.
+    """
+
     def __init__(self):
+        """
+        Initializes the PointBasedEntity with an empty visits DataFrame and an empty locations GeoDataFrame.
+        """
+
         self.visits = pd.DataFrame()
         self.locations = gpd.GeoDataFrame()
 
-    def create_locations(self, cluster_radius=0.007):        
+    def create_locations(self, cluster_radius=0.007):
+        """
+        Creates the locations GeoDataFrame.
+
+        This method uses DBSCAN clustering to identify distinct locations based on the visit data. Each location is 
+        represented by the centroid of the corresponding cluster. The resulting locations GeoDataFrame includes 
+        additional statistics for each location, such as the number of visits, the average visit duration, and the total 
+        visit duration.
+
+        Args:
+            cluster_radius (float, optional): The maximum distance between two samples for them to be considered as 
+                                              part of the same cluster. Defaults to 0.007 degrees.
+        """
+
         # Convert locations to 2D numpy array
         points = np.array(self.visits['location'].tolist())
         
@@ -48,11 +76,26 @@ class PointBasedEntity:
         self.locations = gpd.GeoDataFrame(self.locations, geometry=self.locations['location'].apply(lambda x: Point(x[0], x[1])))
 
     def map_locations(self, column='num_visits'):
-        # Initialize the map at the center of all locations (of person 0)
-        map_center = [47.408675, 8.833210]
+        """
+        Creates a heatmap of the locations.
+
+        This method uses folium to create a heatmap of the locations. The intensity of each location in the heatmap 
+        is determined by the specified column of the locations DataFrame (e.g., the number of visits, the average 
+        visit duration, or the total visit duration).
+
+        Args:
+            column (str, optional): The name of the column in the locations DataFrame to be used for the intensity 
+                                    of the heatmap. Defaults to 'num_visits'.
+
+        Returns:
+            folium.Map: A folium Map object with a heatmap of the locations.
+        """
+
+        # Initialize the map at the center of the Canton of Zürich
+        map_center = [47.412724, 8.655083]
 
         # Create a folium Map
-        m = folium.Map(location=map_center, zoom_start=11, max_zoom=13, tiles='cartodbpositron', control_scale=True)
+        m = folium.Map(location=map_center, zoom_start=10, max_zoom=13, tiles='cartodbpositron', control_scale=True)
 
         # If column is avg_time or total_time, convert it to seconds for normalization
         if column == 'avg_time' or column == 'total_time':
@@ -89,7 +132,27 @@ class PointBasedEntity:
 
     
 class PointBasedPerson(PointBasedEntity):
+    """
+    A class to represent a person using a point-based approach.
+
+    This class is used to represent a person and their visits to various locations using a point-based approach.
+
+    Attributes:
+        user_id (str): The ID of the person.
+        dist_threshold (float): The distance threshold in km for identifying separate visits.
+        visits (pd.DataFrame): A DataFrame to hold the visit data.
+        locations (gpd.GeoDataFrame): A GeoDataFrame to hold the location data.
+    """
+
     def __init__(self, user_id, dist_threshold):
+        """
+        Initializes the PointBasedPerson with the specified user ID and distance threshold, and an empty visits DataFrame.
+
+        Args:
+            user_id (str): The ID of the person.
+            dist_threshold (float): The distance threshold in km for identifying separate visits.
+        """
+
         super().__init__()
         self.user_id = user_id
         self.dist_threshold = dist_threshold  # Distance threshold in km
@@ -97,6 +160,22 @@ class PointBasedPerson(PointBasedEntity):
 
     @classmethod
     def from_csv(cls, filename, dist_threshold, visit_threshold=pd.Timedelta('10 minute')):
+        """
+        Creates a PointBasedPerson object from a CSV file.
+
+        This method reads geotracking data from a CSV file, identifies separate visits based on the distance threshold, and
+        creates a PointBasedPerson object with the identified visits.
+
+        Args:
+            filename (str): The name of the CSV file.
+            dist_threshold (float): The distance threshold in km for identifying separate visits.
+            visit_threshold (pd.Timedelta, optional): The minimum duration of a visit to be considered a valid visit. 
+                                                      Defaults to pd.Timedelta('10 minute').
+
+        Returns:
+            PointBasedPerson: A PointBasedPerson object with the identified visits.
+        """
+
         data = pd.read_csv(filename)
         
         # Remove rows with missing coordinates
@@ -169,16 +248,49 @@ class PointBasedPerson(PointBasedEntity):
 
     
 class PointBasedUnionGroup(PointBasedEntity):
+    """
+    A class to represent a group of people using a point-based approach.
+
+    This class is used to represent a group of people and their combined visits to various locations using a point-based approach.
+
+    Attributes:
+        people (list): A list of PointBasedPerson objects in the group.
+        visits (pd.DataFrame): A DataFrame to hold the visit data of all people in the group.
+        locations (gpd.GeoDataFrame): A GeoDataFrame to hold the location data.
+    """
+
     def __init__(self):
+        """
+        Initializes the PointBasedUnionGroup with an empty list of people and an empty visits DataFrame.
+        """
+
         super().__init__()
         self.people = []
         self.visits = pd.DataFrame()
 
     def add_person(self, person):
+        """
+        Adds a person to the group.
+
+        This method adds a PointBasedPerson object to the group.
+
+        Args:
+            person (PointBasedPerson): The person to add.
+
+        Raises:
+            AssertionError: If the input person is not an instance of the PointBasedPerson class.
+        """
+
         assert isinstance(person, PointBasedPerson), "Input person is not an instance of the PointBasedPerson class."
         self.people.append(person)
 
     def compute_visits(self):
+        """
+        Computes the combined visits of all people in the group.
+
+        This method combines the visits of all people in the group into a single visits DataFrame and creates the locations DataFrame.
+        """
+
         # Combine all visits from all people
         self.visits = pd.concat([person.visits for person in self.people], ignore_index=True)
 
@@ -187,15 +299,57 @@ class PointBasedUnionGroup(PointBasedEntity):
 
         
 class PointBasedIntersectGroup(PointBasedEntity):
+    """
+    A class representing a group of point-based people intersected by shared visits.
+
+    This class is used to represent a group of people and their intersecting visits to various locations using a point-based approach.
+
+    Attributes:
+        people (list): A list of PointBasedPerson objects in the group.
+        visits (pd.DataFrame): A DataFrame to hold the visit data of all people in the group.
+        locations (gpd.GeoDataFrame): A GeoDataFrame to hold the location data.
+    """
+
     def __init__(self):
+        """
+        Initializes the PointBasedIntersectGroup with an empty list of people and an empty visits DataFrame.
+        """
+
         super().__init__()
         self.people = []
         self.visits = pd.DataFrame()
 
     def add_person(self, person):
+        """
+        Adds a person to the group.
+
+        This method adds a PointBasedPerson object to the group.
+
+        Args:
+            person (PointBasedPerson): The person to add.
+
+        Raises:
+            AssertionError: If the input person is not an instance of the PointBasedPerson class.
+        """
+
+        assert isinstance(person, PointBasedPerson), "Input person is not an instance of the PointBasedPerson class."
         self.people.append(person)
 
     def compute_visits(self, n_min=2, n=None, min_duration=pd.Timedelta('5 minutes'), cluster_radius=0.007):
+        """
+        Computes the intersecting visits of all people in the group.
+
+        This method combines the visits of all people in the group, splits each visit into one-minute intervals, and assigns a cluster label to the intervals. 
+        It then identifies the common intervals that were visited by at least n (or if n is not provided, n_min) people and the duration of each visit is 
+        at least min_duration. The resulting visits are assigned to the group's visits attribute.
+
+        Args:
+            n_min (int, optional): The minimum number of people that visited a location for it to be considered a common visit. Defaults to 2.
+            n (int, optional): The exact number of people that visited a location for it to be considered a common visit. If not provided, n_min is used instead.
+            min_duration (pd.Timedelta, optional): The minimum duration of a visit for it to be considered a common visit. Defaults to '5 minutes'.
+            cluster_radius (float, optional): The radius used in the DBSCAN clustering. Defaults to 0.007 degrees.
+        """
+
         # Concatenate all visits from all people
         all_visits = pd.concat([person.visits for person in self.people], ignore_index=True)
         
