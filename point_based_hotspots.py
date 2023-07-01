@@ -2,6 +2,7 @@ import pandas as pd
 import geopandas as gpd
 import numpy as np
 import matplotlib.pyplot as plt
+import seaborn as sns
 from scipy.spatial.distance import pdist, squareform
 from sklearn.cluster import DBSCAN
 from shapely.geometry import Point
@@ -129,6 +130,44 @@ class PointBasedEntity:
         folium.plugins.HeatMap(data, gradient=gradient).add_to(m)
 
         return m
+
+    def plot_histogram(self, dataframe, column, bins=10):
+        """
+        Plots a histogram of the specified column of the dataframe.
+
+        Args:
+            dataframe (str): The dataframe, either 'visits' or 'locations'.
+            column (str): The column to plot.
+            bins (int, optional): The number of bins for the histogram. Defaults to 10.
+
+        Raises:
+            ValueError: If the dataframe argument is not 'visits' or 'locations', or if the column is not in the dataframe.
+        """
+
+        if dataframe == 'visits':
+            df = self.visits
+        elif dataframe == 'locations':
+            df = self.locations
+        else:
+            raise ValueError("The dataframe argument must be either 'visits' or 'locations'.")
+
+        if column not in df.columns:
+            raise ValueError(f"{column} is not a column in the {dataframe} dataframe.")
+
+        if df[column].dtype == 'timedelta64[ns]':
+            # Convert to hours for plotting
+            plot_data = df[column].dt.total_seconds() / 3600
+            xlabel = column + ' (hours)'
+        else:
+            plot_data = df[column]
+            xlabel = column
+
+        plt.figure(figsize=(10, 5))
+        sns.histplot(data=plot_data, bins=bins, color='skyblue', edgecolor='black')
+        plt.title(f'Histogram of {column} of {dataframe}')
+        plt.xlabel(xlabel)
+        plt.ylabel('Count')
+        plt.show()
 
     
 class PointBasedPerson(PointBasedEntity):
