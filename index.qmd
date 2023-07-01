@@ -235,18 +235,17 @@ create_histogram(point_based_person.locations, 'num_visits')
 
 The raster-based has several more locations with relatively high number of visits, but in general they show the same exponential decreasing trend.
 
-
 ```{python}
 # visualize distribution of average duration of intersection meetings
-create_histogram(ig.locations, 'avg_time')
+create_histogram(raster_based_intersection_group.locations, 'avg_time')
 ```
 
 ```{python}
 # visualize distribution of average duration of interesection meetings
-create_histogram(ig.locations, 'avg_time')
+create_histogram(point_based_intersection_group.locations, 'avg_time')
 ```
 
-The average time spent at a location for the intersection differes much more, with values between 0 and 24hours for the raster-based method, and up to 4 days for the point-based method. 
+The average time spent at a location for the intersection differs much more, with values between 0 and 24 hours for the raster-based method, and up to 4 days for the point-based method.
 
 ## Discussion
 
@@ -260,8 +259,8 @@ For the most part, the histograms show that the two methods return similar resul
 
 It is important to acknowledge that the parameters chosen for the method comparison were determined without specific literary references. We only compared the methods at a scale of zoom level 8 for hexagons, the equivalent of a 531m search radius. To address the Modifiable Areal Unit Problem (MAUP), further analysis should be conducted at different scales to explore the impact on the results. Additionally, conducting a Moran's I analysis would provide insights into the optimal bandwidth for clustering visits, indicating the strongest hot spot spatial analysis (Hot Spot Spatial Analysis, 2022).
 
-
 ## Literature
+
 Hot Spot Spatial Analysis (2022). Columbia Mailman School of Public Health. https://www.publichealth.columbia.edu/research/population-health-methods/hot-spot-spatial-analysis
 
 Jones, K., Patel, N., Levy, M. et al. (2008). Global trends in emerging infectious diseases. Nature 451, 990--993.
