@@ -48,8 +48,8 @@ class PointBasedEntity:
         self.locations = gpd.GeoDataFrame(self.locations, geometry=self.locations['location'].apply(lambda x: Point(x[0], x[1])))
 
     def map_locations(self, column='num_visits'):
-        # Initialize the map at the center of all locations
-        map_center = [47.3666, 8.6795]  # [self.locations.geometry.centroid.y.mean(), self.locations.geometry.centroid.x.mean()]
+        # Initialize the map at the center of all locations (of person 0)
+        map_center = [47.408675, 8.833210]
 
         # Create a folium Map
         m = folium.Map(location=map_center, zoom_start=11, max_zoom=13, tiles='cartodbpositron', control_scale=True)

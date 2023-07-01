@@ -33,8 +33,8 @@ class RasterBasedEntity:
         self.locations = gpd.GeoDataFrame(self.locations, geometry='geometry')
 
     def map_locations(self, column='num_visits'):
-        # Initialize the map at the center of all locations
-        map_center = [47.356, 8.673] # Greifensee
+        # Initialize the map at the center of all locations (of person 0)
+        map_center = [47.408675, 8.833210]
         
         # Create a folium Map
         m = folium.Map(location=map_center, zoom_start=11, max_zoom=13, tiles='cartodbpositron', control_scale=True)
