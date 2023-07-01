@@ -21,21 +21,27 @@ The aim of this project is to identify and characterize social hotspots, locatio
 
 ## Introduction and Research Questions
 
-In regards to terminology, a visit refers to a location where an individual spends a certain amount of time. A hotspot is a place with numerous visits, while a social hotspot also takes into account that the visits occur in the same time period.
+Trajectories obtained from geotracking data provide deep insights into the personal and social behaviour of individuals. They reveal information about daily routines, visited locations or social interactions, the analysis of which can be of great value for a variety of applications, for example in urban development (Kucukpehlivan et al., 2023) or emergency response planning (Jones et al., 2008).
 
-Analysing social hotspots can provide valuable insights into how people gather, socialize, and engage with their surroundings. Attributes such as average duration, total time spent and the number of visits can be used to measure how popular a gathering spot is. In urban planning, this can be used to help set priorities for public investments in infrastructure (e.g., Kucukpehlivan et al., 2023). In the field of health sciences, hotspot analysis can be used to identify first outbreaks of diseases (Jones et al., 2008) to be used in emergency response planning.
+However, geotracking people and analysing the data produced in the process also carries highly important ethical implications. Geotracking data narrates the life of a person from a spatial perspective and can reveal very personal and intimate information about them. As such, it represents a profound intrusion into the privacy of individuals, which is why it is important to ensure the protection of privacy when using geotracking data.
 
-In this project, we compare two different methods to identify hotspots, a raster-based and a point-based approach. Both methods implement an approach to first compute the visits and locations for an individual. This is then further generalized to compute the union and intersection of visits. As such, we try to answer the following research questions:
+In our project, we develop a methodology to identify locations visited by individuals or groups of individuals. Given that this task involves revealing potentially sensitive data, the focus is on how we can do this in a way that ensures the privacy of the people involved. For this purpose, two approaches will be contrasted to identify the trade-off between accuracy and privacy. Using a raster-based approach, an inherent obfuscation of the visualised data is provided through the definition of the size of the raster cells. A point-based approach, on the other hand, demonstrates how geotracking data can be used to produce high-resolution results and why additional obfuscation mechanisms are necessary to preserve the privacy of the subjects.
 
-1.  How can individual hotspot detection from Posmo Tracking data be operationalized and applied to multiple individuals?
+This project will therefore address the following two research questions:
 
-2.  How does a cell-based vs. point-based method impact the semantics and certainty of our analysis?
+1.  How can visited locations be extracted from geotracking datasets and how can we study the behaviour of single or multiple individuals from them?
+
+2.  How does a raster-based approach compare to a point-based approach in terms of spatial accuracy and the protection of privacy?
 
 ## Methods
 
 In this section, we present a method for identifying locations that have been visited by individuals or groups of individuals. To this end, in a first step we address the extraction of these locations from geotracking data of individual persons. In a second step, we combine data from multiple individuals in such a way that we can learn more about the collective behaviour of a group of people using Boolean operations. This entails, for one, the union and, for another, the intersection of the visits made by the individuals. What these Boolean operations mean in the context of our project, we will explain in more detail later.
 
 The choice of data structure in our methodology could potentially influence the results in a significant way. A raster-based approach is simpler to implement but is susceptible to the Modifiable Areal Unit Problem (MAUP) and thus can lead to statistical bias in the results. A point-based approach, on the other hand, can potentially lead to geographically very accurate results, which in turn amplifies data privacy concerns. To investigate the role of data structure choice in our methodology, both approaches were implemented in the form of two separate Python modules.
+
+[Raster Based Approach](https://github.com/aiysigner/cma-semesterproject/blob/master/raster_based_hotspots.py)
+
+[Point Based Approach](https://github.com/aiysigner/cma-semesterproject/blob/master/point_based_hotspots.py)
 
 ### Definitions
 
