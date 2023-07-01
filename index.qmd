@@ -92,15 +92,15 @@ To visualize the visit locations of individuals or groups of individuals, the lo
 ## Results
 
 ```{python}
-# import code from .py files
+# import code from modules
 from raster_based_hotspots import RasterBasedPerson, RasterBasedUnionGroup, RasterBasedIntersectGroup
 from point_based_hotspots import PointBasedPerson, PointBasedUnionGroup, PointBasedIntersectGroup
 ```
 
-We will show an example visualizing the results with the data from one of the authors, which we will refer to as X.
+We will present an example visualizing the visit locations using the data of one of the authors, which we will call X.
 
 ```{python}
-# create instance and read in data of an individual for raster-and point-based approach
+# create instance and read in data of an individual for raster- and point-based approach
 raster_based_person = RasterBasedPerson.from_csv(f'data/posmo0.csv', 8)
 point_based_person = PointBasedPerson.from_csv(f'data/posmo0.csv', 0.5314)
 ```
@@ -110,7 +110,7 @@ point_based_person = PointBasedPerson.from_csv(f'data/posmo0.csv', 0.5314)
 raster_based_person.map_locations(column='num_visits')
 ```
 
-We note that the hexagons with the highest number of visits are near Wil, SG, Zurich city, and St. Gallen. These correspond to living and work place of X. While the university campus Wädenswil and Irchel have visits, they do not show a notably high number of visits.
+We note that the hexagons with the highest number of visits are near Wil (SG), Zurich and St. Gallen. These correspond to the home and workplace of X. Although there are visits to the university campuses of Wädenswil and Irchel, they do not show a particularly high number of visits.
 
 ```{python}
 # heatmap of locations based on how often a location was visited
@@ -143,8 +143,6 @@ for i in range(16):
     # add the person instance to the intersection group
     raster_based_intersection_group.add_person(raster_based_person)
     point_based_intersection_group.add_person(point_based_person)
-    
-    print(f'Finished loading Person {i}')
 ```
 
 ```{python}
