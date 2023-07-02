@@ -1,6 +1,6 @@
 ---
-title: Social Hotspot Analysis and Visualization
-subtitle: Patterns & Trends in Environmental Data / Computational Movement Analysis Geo 880 --- Semesterproject FS23
+title: Dissecting Human Mobility
+subtitle: A Comparative Study of Raster and Point-Based Methods in Visit Location Analysis
 author: 
   - name: Diego Gomes
   - name: Aiyana Signer 
@@ -13,13 +13,13 @@ jupyter: python3
 
 ## Abstract
 
-The aim of this project is to identify and characterize meeting places, locations where people spend time in close proximity at the same time. As such, we investigate and operationalise the spatio-temporal clustering of individuals to uncover patterns of social interaction. A raster-based approach using a hexagonal grid and a point-based approach using a kernel density estimation (KDE) are compared. The tracking data utilized for this analysis is derived from the Posmo Project app, collected from a cohort of students enrolled in the Computational Movement Analysis course.
+This project presents a comparison of two methods, raster-based and point-based, for determining and analyzing visit locations using geotracking data. The raster-based approach utilizes hexagonal bins for spatial discretization, while the point-based approach employs DBSCAN clustering. Both methods were tested on Posmo Project datasets and were found to effectively identify significant visit locations. The raster-based method provides easily interpretable results and an added layer of privacy, while the point-based method captures more detailed patterns but raises privacy concerns.
 
 ## 1. Introduction
 
-Trajectories obtained from geotracking data provide deep insights into the personal and social behaviour of individuals. They reveal information about daily routines, visited locations or social interactions, the analysis of which can be of great value for a variety of applications, for example in urban development\[1\] or emergency response planning\[2\].
+Trajectories obtained from geotracking data provide deep insights into the personal and social behaviour of individuals. They reveal information about daily routines, visited locations or social interactions, the analysis of which can be of great value for a variety of applications, for example in urban development \[1\] or emergency response planning \[2\].
 
-However, geotracking people and analysing the data produced in the process also carries highly important ethical implications\[3\] . Geotracking data narrates the life of a person from a spatial perspective and can reveal very personal and intimate information about them\[4\]. As such, it represents a profound intrusion into the privacy of individuals, which is why it is important to ensure the protection of privacy when using geotracking data.
+However, geotracking people and analysing the data produced in the process also carries highly important ethical implications \[3\]. Geotracking data narrates the life of a person from a spatial perspective and can reveal very personal and intimate information about them \[4\]. As such, it represents a profound intrusion into the privacy of individuals, which is why it is important to ensure the protection of privacy when using geotracking data.
 
 In our project, we develop a methodology to identify locations visited by individuals or groups of individuals. Given that this task involves revealing potentially sensitive data, the focus is on how we can do this in a way that ensures the privacy of the people involved. For this purpose, two approaches will be contrasted to identify the trade-off between accuracy and privacy. Using a raster-based approach, an inherent obfuscation of the visualised data is provided through the definition of the size of the raster cells. A point-based approach, on the other hand, demonstrates how geotracking data can be used to produce high-resolution results and why additional obfuscation mechanisms are necessary to preserve the privacy of the subjects.
 
@@ -65,7 +65,7 @@ As part of the course in the context of which this project is being conducted, p
 
 Visits are extracted from records of individual people by iterating chronologically through all data points to identify sets of points that together define a visit based on certain criteria. Beginning at the first data point, a temporary visit object is initialized for which its geographic location is determined. For subsequent data points, we then determine whether they can be attributed to this temporary visit object by using a distance criterion. Once a data point no longer meets this distance criterion, they are considered to have moved away from the visited location and the visit is therefore terminated. When a visit is terminated, we then check whether it meets the minimum duration criterion. If it does, it is considered a valid visit and is added to the person's list of visits. If the visit was too short, we assume that the person was in transit and the temporary visit object is discarded. Regardless of whether the minimum duration criterion is met, each time a temporary visit is terminated, a new one is initialized and the algorithm proceeds to the next data points.
 
-The implementation of the distance criterion differs with the data structure used. While both approaches read in the same data sets, they differ in how the data points are represented. In the raster-based approach, each data point is assigned a hexbin ID based on its coordinates, using the H3 library developed by Uber. Each hexbin ID represents a geographic hexagonal cell predefined by H3, which can vary in size depending on the specified resolution. In our implementation, we use a resolution level of 8, which corresponds to hexagons with a circumradius of 531 meters\[5\]. Making the approximating assumption that the data points have a mean distance of 531 meters to all cell boundaries, we then define the distance criterion with a cell being exited. This means that the distance criterion is no longer satisfied if the hexbin ID of a following data point is different from the previous one, which then leads to the termination of the visit.
+The implementation of the distance criterion differs with the data structure used. While both approaches read in the same data sets, they differ in how the data points are represented. In the raster-based approach, each data point is assigned a hexbin ID based on its coordinates, using the H3 library developed by Uber. Each hexbin ID represents a geographic hexagonal cell predefined by H3, which can vary in size depending on the specified resolution. In our implementation, we use a resolution level of 8, which corresponds to hexagons with a circumradius of 531 meters \[5\]. Making the approximating assumption that the data points have a mean distance of 531 meters to all cell boundaries, we then define the distance criterion with a cell being exited. This means that the distance criterion is no longer satisfied if the hexbin ID of a following data point is different from the previous one, which then leads to the termination of the visit.
 
 In the point-based approach, on the other hand, the data points are represented as point entities carrying the original coordinates. The distance criterion then is defined by a distance calculation between the new data point and the centroid of the points associated with the temporary visit object. For comparability purposes, we use a distance threshold of 531 meters, corresponding to the circumradius of the hexagons in the raster-based approach. If the new data point has a distance less than the threshold from the visit centroid, we attribute it to the temporary visit object, which then also leads to a shift in the position of the centroid. If, on the other hand, the new data point is farther away from the visit centroid than the threshold allows, the visit is terminated and the algorithm proceeds with a next visit.
 
@@ -93,6 +93,8 @@ from raster_based_hotspots import RasterBasedPerson, RasterBasedUnionGroup, Rast
 from point_based_hotspots import PointBasedPerson, PointBasedUnionGroup, PointBasedIntersectGroup
 ```
 
+### 3.1. Visit Locations of an Individual
+
 In this section, we present an example that visualizes the visit locations using the data of one of the authors, referred to as X. The visualization demonstrates the effectiveness of our methodology in identifying significant visit patterns and locations.
 
 ```{python}
@@ -114,6 +116,8 @@ point_based_person.map_locations(column='num_visits')
 ```
 
 For the point-based approach, the heat map is highly influenced by the scale at which it is viewed. As we zoom out, the areas of interest become larger in comparison to the static cell size used in the raster-based approach. Additionally, the behavior of certain locations in the point-based approach is not consistent across different scales, indicating a more dynamic representation of visit locations. For instance, Romanshorn is shown at smaller scales, then disappears, only to reappear again when further zoomed out. There are areas that display a higher density in the heat map than the raster-based approach (e.g. Romanshorn). Wil and Zurich have a higher density all scales, while St. Gallen is displayed at all scales, but is not distinguishable from other locations with few visits.
+
+### 3.2. Visit Locations of a Group of Individuals
 
 ```{python}
 # instantiate the union class for the raster- and point-based approach
@@ -223,7 +227,7 @@ Upon closer examination of the top three frequently visited intersection locatio
 
 The comparison between the raster- and point-based methods reveals certain characteristics and considerations inherent to each approach. Both methods effectively capture comparable visitation locations encompassing domains such as residential, occupational, and educational settings.
 
-It is important to acknowledge the parameters chosen for the method comparison were determined without specific literary references, and only analyzed with a 531 metre search radius. To address the MAUP, further analyses should be conducted at different scales to explore the impact on the results. Additionally, conducting a Moran's I analysis could provide insights into the optimal bandwidth for clustering visits\[6\].
+It is important to acknowledge the parameters chosen for the method comparison were determined without specific literary references, and only analyzed with a 531 metre search radius. To address the MAUP, further analyses should be conducted at different scales to explore the impact on the results. Additionally, conducting a Moran's I analysis could provide insights into the optimal bandwidth for clustering visits \[6\].
 
 The raster-based method provides a straightforward and easily interpretable spatial depiction of visits and meeting areas. The raster allows for simpler comparisons between different maps, ensuring consistent results, as the cell size remains constant regardless of the zoom level. The ambiguity that an actual visit can be anywhere withing the cell serves as privacy mechanism by obfuscating the exact location.
 
