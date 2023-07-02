@@ -2,16 +2,18 @@
 
 **Patterns & Trends in Environmental Data / Computational Movement Analysis Geo 880**
 
-| Semester:      | FS23                            |
-|:---------------|:--------------------------------|
-| **Data:**      | Posmo tracking data from a group of students  |
-| **Title:**     | Social Hotspot Analysis         |
-| **Student 1:** | Diego Gomes                     |
-| **Student 2:** | Aiyana Signer                   |
+| Semester:      | FS23                                         |
+|:---------------|:---------------------------------------------|
+| **Data:**      | Posmo tracking data from a group of students |
+| **Title:**     | Dissecting Human Mobility                    |
+| **Student 1:** | Diego Gomes                                  |
+| **Student 2:** | Aiyana Signer                                |
+
+***Note: The project description below is outdated. To learn more about the final implementation of our project, please visit the [project website](https://aiysigner.github.io/cma-semesterproject/).***
 
 ## Abstract
 
-In our project, we aim to investigate spatiotemporal clustering of individuals to uncover patterns of social interaction within a geographical context. By analysing tracking data from a group of individuals, we will identify and characterize social hotspots – locations where people are in close proximity at the same time. Our goal is to gain insights into the dynamics of these social hotspots, particularly how they are influenced by environmental factors such as weather, land use or other geographic features. Furthermore, we will incorporate a temporal dimension into our analysis, exploring how variations between time of day or day of week may affect the formation and intensity of these hotspots.
+In our project, we aim to investigate spatiotemporal clustering of individuals to uncover patterns of social interaction within a geographical context. By analysing tracking data from a group of individuals, we will identify and characterize social hotspots -- locations where people are in close proximity at the same time. Our goal is to gain insights into the dynamics of these social hotspots, particularly how they are influenced by environmental factors such as weather, land use or other geographic features. Furthermore, we will incorporate a temporal dimension into our analysis, exploring how variations between time of day or day of week may affect the formation and intensity of these hotspots.
 
 ## Research Questions
 
@@ -55,7 +57,7 @@ Possible packages to be used:
 
 6.  Scikit-learn: for machine learning and spatial clustering.
 
-7.   Scikit-mobility: a package specifically designed for movement data analysis.
+7.  Scikit-mobility: a package specifically designed for movement data analysis.
 
 8.  Trajectory: a package for preprocessing and analyzing spatio-temporal trajectories
 
