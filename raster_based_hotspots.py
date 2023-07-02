@@ -127,7 +127,7 @@ class RasterBasedEntity:
             plot_data = df[column]
             xlabel = column
 
-        plt.figure(figsize=(10, 5))
+        plt.figure(figsize=(9, 5))
         sns.histplot(data=plot_data, bins=bins, color='skyblue', edgecolor='black')
         plt.title(f'Histogram of {column} of {dataframe}')
         plt.xlabel(xlabel)
