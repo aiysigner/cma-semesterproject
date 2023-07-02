@@ -219,9 +219,9 @@ raster_based_intersection_group.plot_histogram('locations','num_visits')
 point_based_intersection_group.plot_histogram('locations','num_visits')
 ```
 
-While most locations were visited less than 10x in both methods, the point-based method has intersection locations that were visited 1.5 - 2x more often than in the raster-based method.
+While most locations were visited less than 10 times in both methods, the point-based method has intersection locations that were visited 1.5 - 2 times more often than in the raster-based method.
 
-Upon closer examination of the top three frequently visited intersection locations, notable distinctions emerge. While Zurich City has a visitation count exceeding 60x, it was not even in the top three visited intersections in the raster-based method. Adliswil and Wädenswil both have approx. 35x visits with a duration of 16 hours in the point based method. Conversely, Wädenswil was the most visited intersection location with average duration of 5 hours. Adliswil and Wollishofen register 17 visits each, with average durations of 23 hours and 2.5 hours, respectively.
+Upon closer examination of the top three frequently visited intersection locations, notable distinctions emerge. While Zurich City has a visitation count exceeding 60x, it was not even in the top three visited intersections in the raster-based method. Adliswil and Wädenswil both have approximately 35 visits with a duration of 16 hours in the point based method. Conversely, Wädenswil was the most visited intersection location with average duration of 5 hours. Adliswil and Wollishofen register 17 visits each, with average durations of 23 hours and 2.5 hours, respectively.
 
 ## 4. Discussion & Conclusion
 
